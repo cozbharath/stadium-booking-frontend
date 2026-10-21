@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { formatDate, formatTime, normalizeEvent } from "../../components/common/eventUtils";
 import { get, post } from "../../services/api";
 
 const STAND_COLORS = [
@@ -27,6 +28,16 @@ function SeatSelection() {
 
     const [error, setError] = useState("");
     const [holdError, setHoldError] = useState("");
+    const mapRef = useRef(null);
+    const [payOpen, setPayOpen] = useState(false);
+
+    // Esc closes the pay popup (not while seats are being held)
+    useEffect(() => {
+        if (!payOpen) return undefined;
+        const onKey = (e) => { if (e.key === "Escape" && !holding) setPayOpen(false); };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [payOpen, holding]);
 
     // =========================================================
     // LOAD EVENT + SEATS
@@ -275,7 +286,7 @@ function SeatSelection() {
             !selectedStand &&
             stands.length === 1
         ) {
-            setSelectedStand(stands[0].name);
+            queueMicrotask(() => setSelectedStand(stands[0].name));
         }
     }, [stands, selectedStand]);
 
@@ -351,9 +362,9 @@ function SeatSelection() {
          * Backend did not provide row information for this
          * stand, so lay the seats out automatically.
          *
-         * Maximum 10 seats per row.
+         * Exactly 20 seats per row (A1-A20, B1-B20 ...).
          */
-        const SEATS_PER_ROW = 10;
+        const SEATS_PER_ROW = 20;
 
         const generatedRows = [];
 
@@ -386,6 +397,18 @@ function SeatSelection() {
         return Math.max(
             ...rows.map(([, rowSeats]) => rowSeats.length)
         );
+    }, [rows]);
+
+
+    // "A5", "B12" … label for every seat of the active stand (used in the summary)
+    const seatLabelById = useMemo(() => {
+        const map = {};
+        rows.forEach(([rowName, rowSeats]) => {
+            rowSeats.forEach((seat, col) => {
+                map[seat.id] = `${rowName}${col + 1}`;
+            });
+        });
+        return map;
     }, [rows]);
 
     // =========================================================
@@ -421,6 +444,10 @@ function SeatSelection() {
     const handleSelectStand = (standName) => {
         setSelectedStand(standName);
         setHoldError("");
+        // scrolling effect: glide to the top of the map
+        requestAnimationFrame(() => {
+            mapRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
     };
 
     const handleChangeStand = () => {
@@ -555,50 +582,31 @@ function SeatSelection() {
         }
     };
 
+
     // =========================================================
-    // LOADING
+    // LOADING / ERROR
     // =========================================================
 
     if (loading) {
         return (
-            <div style={pageStyle}>
-                <div style={loadingStyle}>
-                    <div style={spinnerStyle}></div>
-
-                    <h2>Loading Seats...</h2>
-
-                    <p>
-                        Please wait while we load the
-                        available seats.
-                    </p>
+            <div className="ss">
+                <div className="bn-skel" style={{ height: 40, width: 260, marginBottom: 16 }} />
+                <div className="ss-layout">
+                    <div className="bn-skel" style={{ height: 520, borderRadius: 20 }} />
+                    <div className="bn-skel" style={{ height: 360, borderRadius: 20 }} />
                 </div>
             </div>
         );
     }
 
-    // =========================================================
-    // ERROR
-    // =========================================================
-
     if (error) {
         return (
-            <div style={pageStyle}>
-                <div style={errorStyle}>
-                    <div style={errorIconStyle}>
-                        !
-                    </div>
-
-                    <h2>Unable to Load Seats</h2>
-
+            <div className="ss">
+                <div className="bn-state">
+                    <div className="ico">⚠️</div>
+                    <h2>Unable to load seats</h2>
                     <p>{error}</p>
-
-                    <button
-                        type="button"
-                        onClick={loadEventAndSeats}
-                        style={primaryButtonStyle}
-                    >
-                        Try Again
-                    </button>
+                    <button type="button" className="bn-btn bn-btn-primary" onClick={loadEventAndSeats}>Try Again</button>
                 </div>
             </div>
         );
@@ -608,1143 +616,314 @@ function SeatSelection() {
     // MAIN UI
     // =========================================================
 
+    const ev = normalizeEvent(event);
+    const money = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
+    const priceRange = (s) =>
+        s.minPrice === s.maxPrice ? money(s.minPrice) : `${money(s.minPrice)} – ${money(s.maxPrice)}`;
+
+    const availableInStand = activeStand
+        ? activeStand.seats.filter((s) => s.status === "available").length
+        : 0;
+
     return (
-        <div style={pageStyle}>
-            {/* RESPONSIVE OVERRIDES FOR SMALL SCREENS */}
-            <style>{`
-                @media (max-width: 900px) {
-                    .ss-header {
-                        padding: 18px 16px !important;
-                        flex-direction: column !important;
-                        align-items: flex-start !important;
-                        gap: 10px !important;
-                    }
+        <div className={`ss ${selectedSeats.length > 0 ? "has-dock" : ""}`}>
 
-                    .ss-content {
-                        grid-template-columns: 1fr !important;
-                        padding: 14px !important;
-                        gap: 14px !important;
-                    }
-
-                    .ss-seat-area {
-                        padding: 14px !important;
-                    }
-
-                    .ss-summary {
-                        position: static !important;
-                        top: auto !important;
-                    }
-
-                    .ss-title {
-                        font-size: 24px !important;
-                    }
-
-                    .ss-stand-grid {
-                        grid-template-columns: 1fr !important;
-                    }
-                }
-
-                @media (max-width: 480px) {
-                    .ss-title {
-                        font-size: 20px !important;
-                    }
-
-                    .ss-row-seats {
-                        gap: 6px !important;
-                    }
-                }
-            `}</style>
-
-            {/* HEADER */}
-            <section style={headerStyle} className="ss-header">
+            {/* TOP BAR */}
+            <div className="ss-top">
+                <Link to={`/customer/events/${eventId}`} className="ss-back" aria-label="Back to event">←</Link>
                 <div>
-                    <div style={tagStyle}>
-                        BOOK YOUR TICKET
-                    </div>
-
-                    <h1 style={titleStyle} className="ss-title">
-                        Select Your Seats
-                    </h1>
-
-                    <p style={subtitleStyle}>
-                        {activeStand
-                            ? `Choose seats in ${activeStand.name}.`
-                            : "Choose a stand, then pick your seats."}
-                    </p>
+                    <h1>{ev.name}</h1>
+                    <p>{ev.stadium} • {formatDate(ev.date)} • {formatTime(ev.start)}</p>
                 </div>
-
-                <div style={eventBadgeStyle}>
-                    Event #{eventId}
+                <div className="ss-steps">
+                    <span className={!activeStand ? "on" : ""}>1 Stand</span>
+                    <span className={activeStand ? "on" : ""}>2 Seats</span>
+                    <span>3 Pay</span>
                 </div>
-            </section>
+            </div>
 
-            {/* MAIN CONTENT */}
-            <section style={contentStyle} className="ss-content">
-                {/* LEFT - STAND SELECTION OR SEAT MAP */}
-                <div style={seatAreaStyle} className="ss-seat-area">
+            <div className="ss-layout">
 
-                    {!activeStand ? (
+                {/* ================= STADIUM ================= */}
+                <section className="ss-stage" ref={mapRef} style={{ scrollMarginTop: "calc(var(--yt-nav-h) + 12px)" }}>
+                    <div className="ss-stage-in">
 
-                        /* =========================================
-                           STEP: SELECT STAND
-                        ========================================= */
+                        {!activeStand ? (
+                            <>
+                                <div className="ss-stage-head"><h2>Select a stand</h2></div>
 
-                        <div>
-                            <div style={stadiumTitleStyle}>
-                                SELECT A STAND
-                            </div>
-
-                            {stands.length === 0 ? (
-                                <div style={emptyStyle}>
-                                    <h3>No Seats Available</h3>
-                                    <p>
-                                        There are no seats
-                                        configured for this
-                                        event yet.
-                                    </p>
-                                </div>
-                            ) : (
-                                <div style={standGridStyle} className="ss-stand-grid">
-                                    {stands.map((stand) => (
-                                        <button
-                                            key={stand.name}
-                                            type="button"
-                                            onClick={() =>
-                                                handleSelectStand(
-                                                    stand.name
-                                                )
-                                            }
-                                            disabled={
-                                                stand.availableCount === 0
-                                            }
-                                            style={getStandCardStyle(
-                                                stand
-                                            )}
-                                        >
-                                            <span
-                                                style={{
-                                                    ...standDotStyle,
-                                                    background:
-                                                        stand.color
-                                                }}
-                                            ></span>
-
-                                            <strong style={standNameStyle}>
-                                                {stand.name}
-                                            </strong>
-
-                                            <span style={standPriceStyle}>
-                                                {stand.minPrice ===
-                                                stand.maxPrice
-                                                    ? `₹${stand.minPrice.toLocaleString("en-IN")}`
-                                                    : `₹${stand.minPrice.toLocaleString("en-IN")} - ₹${stand.maxPrice.toLocaleString("en-IN")}`}
-                                                {" "}per seat
-                                            </span>
-
-                                            <span style={standMetaStyle}>
-                                                {stand.availableCount === 0
-                                                    ? "Sold Out"
-                                                    : `${stand.availableCount} of ${stand.totalCount} available`}
-                                            </span>
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                    ) : (
-
-                        /* =========================================
-                           STEP: PICK SEATS (within chosen stand)
-                        ========================================= */
-
-                        <div>
-                            <div style={standHeaderRowStyle}>
-                                <div>
-                                    <div style={stadiumTitleStyle}>
-                                        {activeStand.name.toUpperCase()}
-                                    </div>
-
-                                    <div style={standPriceBadgeStyle}>
-                                        {activeStand.minPrice === activeStand.maxPrice
-                                            ? `₹${activeStand.minPrice.toLocaleString("en-IN")} per seat`
-                                            : `₹${activeStand.minPrice.toLocaleString("en-IN")} - ₹${activeStand.maxPrice.toLocaleString("en-IN")} per seat`}
-                                    </div>
+                                <div className="ss-pitch">
+                                    <div className="ss-pitch-bar" />
+                                    <span>PLAYING AREA</span>
                                 </div>
 
-                                {stands.length > 1 && (
-                                    <button
-                                        type="button"
-                                        onClick={handleChangeStand}
-                                        style={changeStandButtonStyle}
-                                    >
-                                        ← Change Stand
-                                    </button>
-                                )}
-                            </div>
-
-                            {/* STAGE */}
-                            <div style={stageWrapperStyle}>
-                                <div style={stageStyle}>
-                                    STAGE / PLAYING AREA
-                                </div>
-                            </div>
-
-                            {/* SEAT MAP */}
-                            <div style={seatMapContainerStyle}>
-                                {rows.length === 0 ? (
-                                    <div style={emptyStyle}>
-                                        <h3>
-                                            No Seats Available
-                                        </h3>
-
-                                        <p>
-                                            There are no seats
-                                            configured for this
-                                            stand.
-                                        </p>
+                                {stands.length === 0 ? (
+                                    <div className="ss-empty" style={{ color: "#c9c9dc" }}>
+                                        <span>🏟️</span>No seats have been configured for this event yet.
                                     </div>
                                 ) : (
-                                    <>
-                                        {/* COLUMN HEADER NUMBERS */}
-                                        <div style={seatRowStyle}>
-                                            <div style={rowLabelStyle}></div>
-
-                                            <div
-                                                style={{
-                                                    ...seatGroupStyle,
-                                                    gridTemplateColumns: `repeat(${maxColumns}, 34px)`
-                                                }}
+                                    <div className="ss-stands">
+                                        {stands.map((stand, i) => (
+                                            <button
+                                                key={stand.name}
+                                                type="button"
+                                                className="ss-stand"
+                                                style={{ "--c": stand.color, "--i": i }}
+                                                disabled={stand.availableCount === 0}
+                                                onClick={() => handleSelectStand(stand.name)}
                                             >
-                                                {Array.from(
-                                                    { length: maxColumns },
-                                                    (_, index) => (
-                                                        <div
-                                                            key={index}
-                                                            style={columnNumberStyle}
-                                                        >
-                                                            {index + 1}
-                                                        </div>
-                                                    )
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        {rows.map(
-                                            ([rowName, rowSeats]) => (
-                                                <div
-                                                    key={rowName}
-                                                    style={seatRowStyle}
-                                                >
-                                                    {/* ROW LABEL */}
-                                                    <div
-                                                        style={
-                                                            rowLabelStyle
-                                                        }
-                                                    >
-                                                        {rowName}
-                                                    </div>
-
-                                                    {/* SEATS */}
-                                                    <div
-                                                        style={{
-                                                            ...seatGroupStyle,
-                                                            gridTemplateColumns: `repeat(${maxColumns}, 34px)`
-                                                        }}
-                                                    >
-                                                        {rowSeats.map(
-                                                            (seat) => {
-                                                                const selected =
-                                                                    selectedSeats.includes(
-                                                                        seat.id
-                                                                    );
-
-                                                                const booked =
-                                                                    seat.status ===
-                                                                    "booked";
-
-                                                                return (
-                                                                    <button
-                                                                        key={
-                                                                            seat.id
-                                                                        }
-                                                                        type="button"
-                                                                        disabled={
-                                                                            booked ||
-                                                                            holding
-                                                                        }
-                                                                        onClick={() =>
-                                                                            handleSeatClick(
-                                                                                seat
-                                                                            )
-                                                                        }
-                                                                        title={
-                                                                            booked
-                                                                                ? `Seat ${seat.number} is booked`
-                                                                                : `Seat ${seat.number} - ₹${seat.price}`
-                                                                        }
-                                                                        style={getSeatStyle(
-                                                                            {
-                                                                                selected,
-                                                                                booked
-                                                                            }
-                                                                        )}
-                                                                    >
-                                                                    </button>
-                                                                );
-                                                            }
-                                                        )}
-                                                    </div>
+                                                <strong>{stand.name}</strong>
+                                                <span className="p">{priceRange(stand)} <small style={{ fontWeight: 500, color: "#b4b4cc" }}>/ seat</small></span>
+                                                <span className="m">
+                                                    {stand.availableCount === 0
+                                                        ? "Sold out"
+                                                        : `${stand.availableCount} of ${stand.totalCount} available`}
+                                                </span>
+                                                <div className="ss-bar">
+                                                    <i style={{ width: `${(stand.availableCount / Math.max(stand.totalCount, 1)) * 100}%` }} />
                                                 </div>
-                                            )
-                                        )}
-                                    </>
+                                            </button>
+                                        ))}
+                                    </div>
                                 )}
-                            </div>
-
-                            {/* LEGEND */}
-                            <div style={legendStyle}>
-                                <LegendItem
-                                    type="available"
-                                    label="Available"
-                                />
-
-                                <LegendItem
-                                    type="selected"
-                                    label="Selected"
-                                />
-
-                                <LegendItem
-                                    type="booked"
-                                    label="Booked"
-                                />
-                            </div>
-
-                            {/* SEAT COUNT */}
-                            <div style={seatCountStyle}>
-                                <span>
-                                    Total Seats:{" "}
-                                    <strong>
-                                        {activeStand.seats.length}
-                                    </strong>
-                                </span>
-
-                                <span>
-                                    Available:{" "}
-                                    <strong>
-                                        {
-                                            activeStand.seats.filter(
-                                                (seat) =>
-                                                    seat.status ===
-                                                    "available"
-                                            ).length
-                                        }
-                                    </strong>
-                                </span>
-
-                                <span>
-                                    Selected:{" "}
-                                    <strong>
-                                        {selectedSeats.length}
-                                    </strong>
-                                </span>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* RIGHT - BOOKING SESSION / SUMMARY */}
-                <aside style={summaryStyle} className="ss-summary">
-                    <div style={tagStyle}>
-                        BOOKING SUMMARY
-                    </div>
-
-                    <h2 style={summaryTitleStyle}>
-                        Your Selection
-                    </h2>
-
-                    {/* EVENT */}
-                    <div style={eventInfoStyle}>
-                        <span>EVENT</span>
-
-                        <strong>
-                            {event?.name ||
-                                event?.eventName ||
-                                event?.title ||
-                                "Selected Event"}
-                        </strong>
-                    </div>
-
-                    {/* STAND */}
-                    {activeStand && (
-                        <div style={eventInfoStyle}>
-                            <span>STAND</span>
-
-                            <strong>
-                                {activeStand.name}
-                            </strong>
-                        </div>
-                    )}
-
-                    {/* SELECTED SEATS */}
-                    <div style={summarySectionStyle}>
-                        <div
-                            style={
-                                summarySectionHeaderStyle
-                            }
-                        >
-                            <span>
-                                Selected Seats
-                            </span>
-
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "10px"
-                                }}
-                            >
-                                <strong>
-                                    {selectedSeats.length}
-                                </strong>
-
-                                {selectedSeats.length > 0 && (
-                                    <button
-                                        type="button"
-                                        onClick={handleClearSelection}
-                                        style={clearAllButtonStyle}
-                                    >
-                                        Clear All
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-
-                        {selectedSeatDetails.length ===
-                        0 ? (
-                            <div
-                                style={
-                                    noSelectionStyle
-                                }
-                            >
-                                <span>
-                                    🎟️
-                                </span>
-
-                                <p>
-                                    No seats selected
-                                    yet.
-                                </p>
-
-                                <small>
-                                    {activeStand
-                                        ? "Select seats from the stadium map."
-                                        : "Select a stand to view seats."}
-                                </small>
-                            </div>
+                            </>
                         ) : (
-                            <div
-                                style={
-                                    selectedListStyle
-                                }
-                            >
-                                {selectedSeatDetails.map(
-                                    (seat) => (
-                                        <div
-                                            key={
-                                                seat.id
-                                            }
-                                            style={
-                                                selectedSeatStyle
-                                            }
-                                        >
-                                            <div>
-                                                <strong>
-                                                    Seat{" "}
-                                                    {
-                                                        seat.number
-                                                    }
-                                                </strong>
+                            <>
+                                <div className="ss-stage-head">
+                                    <div>
+                                        <h2 style={{ color: "#ffd166" }}>{activeStand.name}</h2>
+                                        <span className="ss-price-badge" style={{ display: "inline-block", marginTop: 6 }}>
+                                            {priceRange(activeStand)} per seat
+                                        </span>
+                                    </div>
+                                    {stands.length > 1 && (
+                                        <button type="button" className="ss-change" onClick={handleChangeStand}>← Change stand</button>
+                                    )}
+                                </div>
 
-                                                <small>
-                                                    {seat.standName}
-                                                </small>
-                                            </div>
+                                <div className="ss-pitch">
+                                    <div className="ss-pitch-bar" />
+                                    <span>PLAYING AREA / STAGE</span>
+                                </div>
 
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: "10px"
-                                                }}
-                                            >
-                                                <strong>
-                                                    ₹
-                                                    {
-                                                        seat.price
-                                                    }
-                                                </strong>
+                                {rows.length === 0 ? (
+                                    <div className="ss-empty" style={{ color: "#c9c9dc" }}>No seats configured for this stand.</div>
+                                ) : (
+                                    <div className="ss-scroll" role="group" aria-label="Seat map">
+                                        <div className="ss-grid" style={{ "--cols": maxColumns }}>
 
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleSeatClick(seat)
-                                                    }
-                                                    style={removeSeatButtonStyle}
-                                                    title="Remove seat"
-                                                >
-                                                    ×
-                                                </button>
-                                            </div>
+                                            {/* column numbers 1 – 20 */}
+                                            <div className="ss-colhead corner" />
+                                            {Array.from({ length: maxColumns }, (_, i) => (
+                                                <div key={i} className="ss-colhead">{i + 1}</div>
+                                            ))}
+
+                                            {/* rows A, B, C … each with seats 1 – 20 */}
+                                            {rows.map(([rowName, rowSeats], r) => (
+                                                <Row
+                                                    key={rowName}
+                                                    rowName={rowName}
+                                                    rowSeats={rowSeats}
+                                                    rowIndex={r}
+                                                    maxColumns={maxColumns}
+                                                    color={activeStand.color}
+                                                    selectedSeats={selectedSeats}
+                                                    holding={holding}
+                                                    onSeatClick={handleSeatClick}
+                                                />
+                                            ))}
                                         </div>
-                                    )
+                                    </div>
                                 )}
-                            </div>
+
+                                <div className="ss-hint">↔ Swipe the map to see all 20 seats ↕</div>
+
+                                <div className="ss-legend">
+                                    <span><i style={{ background: activeStand.color }} />Available</span>
+                                    <span><i style={{ background: "#f84464", boxShadow: "0 0 8px #f84464" }} />Selected</span>
+                                    <span><i style={{ background: "#3a3a52" }} />Sold</span>
+                                </div>
+
+                                <div className="ss-counts">
+                                    <span>Total <b>{activeStand.seats.length}</b></span>
+                                    <span>Available <b>{availableInStand}</b></span>
+                                    <span>Selected <b>{selectedSeats.length}</b></span>
+                                </div>
+                            </>
                         )}
                     </div>
+                </section>
 
-                    {/* TOTAL */}
-                    <div style={totalStyle}>
-                        <span>
-                            Total Amount
-                        </span>
+            </div>
 
-                        <strong>
-                            ₹{totalAmount.toLocaleString(
-                                "en-IN"
-                            )}
-                        </strong>
-                    </div>
+            {/* ================= YOUR SELECTION (bottom dock, only when seats are selected) ================= */}
+            {selectedSeats.length > 0 && (
+                <div className="ss-dock" role="region" aria-label="Your selection">
+                    <div className="ss-dock-in">
 
-                    {/* HOLD ERROR */}
-                    {holdError && (
-                        <div
-                            style={
-                                holdErrorStyle
-                            }
-                        >
-                            ⚠️ {holdError}
+                        <div className="ss-dock-head">
+                            <div>
+                                <h3>Your selection</h3>
+                                <small>{ev.name}{activeStand ? ` • ${activeStand.name}` : ""}</small>
+                            </div>
+                            <button type="button" className="ss-clear" onClick={handleClearSelection}>Clear all</button>
                         </div>
-                    )}
 
-                    {/* CONTINUE */}
-                    <button
-                        type="button"
-                        disabled={
-                            selectedSeats.length ===
-                                0 || holding
-                        }
-                        onClick={handleContinue}
-                        style={{
-                            ...continueButtonStyle,
-                            opacity:
-                                selectedSeats.length ===
-                                    0 || holding
-                                    ? 0.5
-                                    : 1,
-                            cursor:
-                                selectedSeats.length ===
-                                    0 || holding
-                                    ? "not-allowed"
-                                    : "pointer"
-                        }}
-                    >
-                        {holding
-                            ? "Holding Seats..."
-                            : "Continue to Booking →"}
-                    </button>
+                        <div className="ss-dock-seats">
+                            {selectedSeatDetails.map((seat) => (
+                                <span key={seat.id} className="ss-chip">
+                                    <b>{seatLabelById[seat.id] || `Seat ${seat.number}`}</b>
+                                    <em>{money(seat.price)}</em>
+                                    <button type="button" aria-label="Remove seat" onClick={() => handleSeatClick(seat)}>×</button>
+                                </span>
+                            ))}
+                        </div>
 
-                    {/* BACK */}
-                    <Link
-                        to={`/customer/events/${eventId}`}
-                        style={backButtonStyle}
-                    >
-                        ← Back to Event
-                    </Link>
+                        {holdError && <div className="ss-error" style={{ marginTop: 10, marginBottom: 0 }}>{holdError}</div>}
 
-                    {/* HOLD INFO */}
-                    <div style={holdInfoStyle}>
-                        🔒 Selected seats will be
-                        held for <strong>10 minutes</strong>.
+                        <div className="ss-dock-foot">
+                            <div className="tot">
+                                <small>Total • {selectedSeats.length} seat{selectedSeats.length === 1 ? "" : "s"}</small>
+                                <strong>{money(totalAmount)}</strong>
+                            </div>
+                            <button
+                                type="button"
+                                className="bn-btn bn-btn-primary"
+                                onClick={() => setPayOpen(true)}
+                                disabled={holding}
+                            >
+                                Pay {money(totalAmount)}
+                            </button>
+                        </div>
                     </div>
-                </aside>
-            </section>
+                </div>
+            )}
+
+            {/* ================= PAY POPUP ================= */}
+            {payOpen && selectedSeats.length > 0 && (
+                <div
+                    className="ss-modal-back"
+                    onClick={() => { if (!holding) setPayOpen(false); }}
+                    role="presentation"
+                >
+                    <div
+                        className="ss-modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Confirm and pay"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            type="button"
+                            className="ss-modal-x"
+                            aria-label="Close"
+                            disabled={holding}
+                            onClick={() => setPayOpen(false)}
+                        >
+                            ×
+                        </button>
+
+                        <h3>Confirm &amp; Pay</h3>
+
+                        <div className="ss-ev">
+                            <div className="th">{ev.image && <img src={ev.image} alt="" />}</div>
+                            <div>
+                                <strong>{ev.name}</strong>
+                                <small>{formatDate(ev.date)} • {formatTime(ev.start)}</small>
+                                <br />
+                                <small>{ev.stadium}</small>
+                            </div>
+                        </div>
+
+                        <div className="ss-modal-list">
+                            {selectedSeatDetails.map((seat) => (
+                                <div key={seat.id} className="ss-modal-row">
+                                    <span>
+                                        <b>{seatLabelById[seat.id] || `Seat ${seat.number}`}</b>
+                                        <small> · {seat.standName}</small>
+                                    </span>
+                                    <span>{money(seat.price)}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="ss-total">
+                            <span>Total amount ({selectedSeats.length} seat{selectedSeats.length === 1 ? "" : "s"})</span>
+                            <strong>{money(totalAmount)}</strong>
+                        </div>
+
+                        {holdError && <div className="ss-error">{holdError}</div>}
+
+                        <div className="ss-modal-actions">
+                            <button
+                                type="button"
+                                className="bn-btn bn-btn-ghost"
+                                disabled={holding}
+                                onClick={() => setPayOpen(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="bn-btn bn-btn-primary"
+                                disabled={holding}
+                                onClick={handleContinue}
+                            >
+                                {holding ? "Holding seats…" : `Pay ${money(totalAmount)}`}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {holdError && selectedSeats.length === 0 && (
+                <div className="ss-error" style={{ marginTop: 12 }}>{holdError}</div>
+            )}
+
         </div>
     );
 }
 
-// =========================================================
-// LEGEND COMPONENT
-// =========================================================
+/* One row of seats (row letter + up to 20 seats, labelled 1 – 20) */
+function Row({ rowName, rowSeats, rowIndex, maxColumns, color, selectedSeats, holding, onSeatClick }) {
+    const cells = [];
 
-function LegendItem({ type, label }) {
-    return (
-        <div style={legendItemStyle}>
-            <span
-                style={getLegendBoxStyle(type)}
-            ></span>
+    for (let col = 0; col < maxColumns; col += 1) {
+        const seat = rowSeats[col];
 
-            <span>{label}</span>
-        </div>
-    );
-}
-
-// =========================================================
-// SEAT STYLE
-// =========================================================
-
-function getSeatStyle({ selected, booked }) {
-    let background = "#ffffff";
-    let border = "#2563eb";
-    let color = "#1d4ed8";
-    let shadow =
-        "0 2px 6px rgba(37, 99, 235, 0.15)";
-
-    if (booked) {
-        background = "#e5e7eb";
-        border = "#9ca3af";
-        color = "#6b7280";
-        shadow = "none";
-    }
-
-    if (selected) {
-        background = "#2563eb";
-        border = "#1d4ed8";
-        color = "#ffffff";
-        shadow =
-            "0 5px 15px rgba(37, 99, 235, 0.35)";
-    }
-
-    return {
-        width: "26px",
-        height: "26px",
-        minWidth: "26px",
-        borderRadius: "50%",
-        border: `2px solid ${border}`,
-        background,
-        color,
-        fontSize: "0",
-        fontWeight: "700",
-        cursor: booked
-            ? "not-allowed"
-            : "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        transition:
-            "all 0.18s ease",
-        boxShadow: shadow,
-        position: "relative",
-        padding: 0
-    };
-}
-
-// =========================================================
-// STAND CARD STYLE
-// =========================================================
-
-function getStandCardStyle(stand) {
-    const soldOut = stand.availableCount === 0;
-
-    return {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        gap: "6px",
-        padding: "18px",
-        borderRadius: "14px",
-        border: `2px solid ${soldOut ? "#e5e7eb" : stand.color}33`,
-        background: soldOut ? "#f8fafc" : "#ffffff",
-        cursor: soldOut ? "not-allowed" : "pointer",
-        opacity: soldOut ? 0.6 : 1,
-        textAlign: "left",
-        transition: "all 0.18s ease",
-        boxShadow: soldOut
-            ? "none"
-            : "0 4px 14px rgba(15, 23, 42, 0.06)"
-    };
-}
-
-// =========================================================
-// STYLES
-// =========================================================
-
-const pageStyle = {
-    minHeight: "100vh",
-    width: "100%",
-    background: "#f3f8fc",
-    color: "#172033",
-    boxSizing: "border-box"
-};
-
-const headerStyle = {
-    padding: "32px 40px",
-    background:
-        "linear-gradient(135deg, #ffffff, #eef6ff)",
-    borderBottom:
-        "1px solid #dbe7f3",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "20px"
-};
-
-const tagStyle = {
-    fontSize: "12px",
-    fontWeight: "800",
-    letterSpacing: "1.8px",
-    color: "#2563eb",
-    marginBottom: "8px"
-};
-
-const titleStyle = {
-    margin: 0,
-    fontSize: "32px",
-    fontWeight: "800",
-    color: "#111827"
-};
-
-const subtitleStyle = {
-    margin: "8px 0 0",
-    color: "#64748b",
-    fontSize: "15px"
-};
-
-const eventBadgeStyle = {
-    padding: "12px 18px",
-    borderRadius: "10px",
-    background: "#ffffff",
-    border: "1px solid #dbe7f3",
-    color: "#2563eb",
-    fontWeight: "700",
-    whiteSpace: "nowrap"
-};
-
-const contentStyle = {
-    display: "grid",
-    gridTemplateColumns:
-        "minmax(0, 1fr) 350px",
-    gap: "24px",
-    padding: "28px 40px 40px",
-    boxSizing: "border-box",
-    alignItems: "start"
-};
-
-const seatAreaStyle = {
-    background: "#ffffff",
-    borderRadius: "18px",
-    border: "1px solid #dbe7f3",
-    padding: "28px",
-    boxShadow:
-        "0 5px 20px rgba(15, 23, 42, 0.05)",
-    minWidth: 0,
-    overflowX: "auto"
-};
-
-const stadiumTitleStyle = {
-    textAlign: "center",
-    fontSize: "13px",
-    fontWeight: "800",
-    letterSpacing: "2px",
-    color: "#64748b",
-    marginBottom: "18px"
-};
-
-const standGridStyle = {
-    display: "grid",
-    gridTemplateColumns:
-        "repeat(auto-fill, minmax(220px, 1fr))",
-    gap: "16px"
-};
-
-const standDotStyle = {
-    width: "14px",
-    height: "14px",
-    borderRadius: "50%",
-    display: "inline-block"
-};
-
-const standNameStyle = {
-    fontSize: "16px",
-    color: "#111827"
-};
-
-const standPriceStyle = {
-    fontSize: "14px",
-    color: "#2563eb",
-    fontWeight: "700"
-};
-
-const standMetaStyle = {
-    fontSize: "12px",
-    color: "#64748b"
-};
-
-const standHeaderRowStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: "16px",
-    marginBottom: "10px"
-};
-
-const standPriceBadgeStyle = {
-    display: "inline-block",
-    padding: "6px 14px",
-    borderRadius: "999px",
-    background: "#eff6ff",
-    color: "#1d4ed8",
-    fontSize: "13px",
-    fontWeight: "700",
-    marginBottom: "10px"
-};
-
-const changeStandButtonStyle = {
-    border: "1px solid #dbe7f3",
-    background: "#ffffff",
-    color: "#2563eb",
-    padding: "9px 16px",
-    borderRadius: "9px",
-    fontSize: "13px",
-    fontWeight: "700",
-    cursor: "pointer",
-    whiteSpace: "nowrap"
-};
-
-const stageWrapperStyle = {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "38px"
-};
-
-const stageStyle = {
-    width: "70%",
-    maxWidth: "650px",
-    minWidth: "280px",
-    height: "58px",
-    borderRadius:
-        "0 0 50% 50%",
-    background:
-        "linear-gradient(180deg, #dbeafe, #bfdbfe)",
-    border:
-        "2px solid #93c5fd",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#1d4ed8",
-    fontSize: "13px",
-    fontWeight: "800",
-    letterSpacing: "1px",
-    boxShadow:
-        "0 8px 20px rgba(37, 99, 235, 0.10)"
-};
-
-const seatMapContainerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    alignItems: "flex-start",
-    width: "100%",
-    padding: "10px 0 25px"
-};
-
-const seatRowStyle = {
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-    width: "100%"
-};
-
-const rowLabelStyle = {
-    width: "22px",
-    height: "22px",
-    borderRadius: "50%",
-    background: "#eff6ff",
-    color: "#2563eb",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "11px",
-    fontWeight: "800",
-    flexShrink: 0
-};
-
-const seatGroupStyle = {
-    display: "grid",
-    gap: "10px",
-    justifyItems: "center"
-};
-
-const columnNumberStyle = {
-    fontSize: "11px",
-    fontWeight: "700",
-    color: "#94a3b8",
-    textAlign: "center"
-};
-
-const legendStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "28px",
-    borderTop: "1px solid #e5edf5",
-    paddingTop: "22px",
-    marginTop: "10px",
-    flexWrap: "wrap"
-};
-
-const legendItemStyle = {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    fontSize: "13px",
-    color: "#475569"
-};
-
-function getLegendBoxStyle(type) {
-    const styles = {
-        available: {
-            background: "#ffffff",
-            border: "2px solid #2563eb"
-        },
-        selected: {
-            background: "#2563eb",
-            border: "2px solid #1d4ed8"
-        },
-        booked: {
-            background: "#e5e7eb",
-            border: "2px solid #9ca3af"
+        if (!seat) {
+            cells.push(<span key={`gap-${col}`} />);
+            continue;
         }
-    };
 
-    return {
-        width: "18px",
-        height: "18px",
-        borderRadius: "5px",
-        display: "inline-block",
-        boxSizing: "border-box",
-        ...styles[type]
-    };
+        const selected = selectedSeats.includes(seat.id);
+        const booked = seat.status === "booked";
+        const label = `${rowName}${col + 1}`;
+        const state = booked ? "taken" : selected ? "sel" : "free";
+
+        cells.push(
+            <button
+                key={seat.id}
+                type="button"
+                className={`ss-seat ${state}`}
+                style={{ "--c": color, "--i": rowIndex * 4 + col }}
+                disabled={booked || holding}
+                aria-pressed={selected}
+                aria-label={`Seat ${label}${booked ? " sold" : ""}`}
+                data-tip={booked ? `${label} · Sold` : `${label} · ₹${Number(seat.price || 0).toLocaleString("en-IN")}`}
+                onClick={() => onSeatClick(seat)}
+            >
+                {col + 1}
+            </button>
+        );
+    }
+
+    return (
+        <>
+            <div className="ss-rowlabel">{rowName}</div>
+            {cells}
+        </>
+    );
 }
-
-const seatCountStyle = {
-    display: "flex",
-    justifyContent: "center",
-    gap: "28px",
-    flexWrap: "wrap",
-    marginTop: "20px",
-    padding: "14px",
-    background: "#f8fafc",
-    borderRadius: "10px",
-    fontSize: "13px",
-    color: "#64748b"
-};
-
-const summaryStyle = {
-    background: "#ffffff",
-    borderRadius: "18px",
-    border: "1px solid #dbe7f3",
-    padding: "25px",
-    boxShadow:
-        "0 5px 20px rgba(15, 23, 42, 0.05)",
-    position: "sticky",
-    top: "90px"
-};
-
-const summaryTitleStyle = {
-    margin: "0 0 22px",
-    fontSize: "25px",
-    color: "#111827"
-};
-
-const eventInfoStyle = {
-    padding: "14px",
-    borderRadius: "10px",
-    background: "#f8fafc",
-    border: "1px solid #e5edf5",
-    display: "flex",
-    flexDirection: "column",
-    gap: "5px",
-    marginBottom: "16px"
-};
-
-const summarySectionStyle = {
-    borderTop:
-        "1px solid #e5edf5",
-    borderBottom:
-        "1px solid #e5edf5",
-    padding: "20px 0"
-};
-
-const summarySectionHeaderStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    fontWeight: "700",
-    marginBottom: "15px"
-};
-
-const clearAllButtonStyle = {
-    border: "none",
-    background: "none",
-    color: "#2563eb",
-    fontSize: "12px",
-    fontWeight: "700",
-    cursor: "pointer",
-    padding: 0
-};
-
-const noSelectionStyle = {
-    textAlign: "center",
-    padding: "25px 10px",
-    color: "#64748b"
-};
-
-const selectedListStyle = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "8px",
-    maxHeight: "230px",
-    overflowY: "auto"
-};
-
-const selectedSeatStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "11px 12px",
-    background: "#eff6ff",
-    border:
-        "1px solid #dbeafe",
-    borderRadius: "9px",
-    color: "#1e40af"
-};
-
-const removeSeatButtonStyle = {
-    border: "none",
-    background: "none",
-    color: "#1e40af",
-    fontSize: "18px",
-    lineHeight: 1,
-    cursor: "pointer",
-    padding: 0
-};
-
-const totalStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "22px 0",
-    fontSize: "15px"
-};
-
-const holdErrorStyle = {
-    padding: "12px",
-    borderRadius: "9px",
-    background: "#fef2f2",
-    color: "#b91c1c",
-    border:
-        "1px solid #fecaca",
-    fontSize: "13px",
-    marginBottom: "15px"
-};
-
-const continueButtonStyle = {
-    width: "100%",
-    border: "none",
-    borderRadius: "10px",
-    padding: "15px",
-    background:
-        "linear-gradient(135deg, #2563eb, #1d4ed8)",
-    color: "#ffffff",
-    fontWeight: "800",
-    fontSize: "14px",
-    boxShadow:
-        "0 8px 18px rgba(37, 99, 235, 0.25)"
-};
-
-const backButtonStyle = {
-    display: "block",
-    textAlign: "center",
-    marginTop: "14px",
-    padding: "12px",
-    borderRadius: "9px",
-    border:
-        "1px solid #dbe7f3",
-    color: "#475569",
-    textDecoration: "none",
-    fontSize: "13px",
-    fontWeight: "600"
-};
-
-const holdInfoStyle = {
-    marginTop: "16px",
-    padding: "11px",
-    background: "#fffbeb",
-    color: "#92400e",
-    borderRadius: "8px",
-    fontSize: "12px",
-    textAlign: "center"
-};
-
-const loadingStyle = {
-    minHeight: "70vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#475569"
-};
-
-const spinnerStyle = {
-    width: "42px",
-    height: "42px",
-    borderRadius: "50%",
-    border: "4px solid #dbeafe",
-    borderTopColor: "#2563eb",
-    marginBottom: "20px",
-    animation: "spin 1s linear infinite"
-};
-
-const errorStyle = {
-    minHeight: "70vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    padding: "30px"
-};
-
-const errorIconStyle = {
-    width: "55px",
-    height: "55px",
-    borderRadius: "50%",
-    background: "#fee2e2",
-    color: "#dc2626",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "25px",
-    fontWeight: "800",
-    marginBottom: "15px"
-};
-
-const primaryButtonStyle = {
-    marginTop: "15px",
-    padding: "12px 24px",
-    border: "none",
-    borderRadius: "8px",
-    background: "#2563eb",
-    color: "#ffffff",
-    fontWeight: "700",
-    cursor: "pointer"
-};
-
-const emptyStyle = {
-    padding: "60px 20px",
-    textAlign: "center",
-    color: "#64748b"
-};
 
 export default SeatSelection;

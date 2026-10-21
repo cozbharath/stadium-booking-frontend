@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="0%" r="90%">
+      <stop offset="0" stop-color="#3b2a6b"/><stop offset=".55" stop-color="#171335"/><stop offset="1" stop-color="#0a0818"/>
+    </radialGradient>
+    <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f8a4c"/><stop offset="1" stop-color="#0f5a31"/>
+    </linearGradient>
+    <linearGradient id="bowl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2550"/><stop offset="1" stop-color="#0d0b22"/>
+    </linearGradient>
+    <radialGradient id="flood" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="crowd" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.2" fill="#ff4d6d" opacity=".55"/><circle cx="11" cy="9" r="2.2" fill="#ffd166" opacity=".45"/>
+      <circle cx="4" cy="12" r="2" fill="#4cc9f0" opacity=".4"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <g fill="#fff" opacity=".5">
+    <circle cx="120" cy="80" r="1.5"/><circle cx="420" cy="40" r="1.2"/><circle cx="900" cy="60" r="1.6"/>
+    <circle cx="1300" cy="90" r="1.3"/><circle cx="1500" cy="30" r="1.5"/><circle cx="700" cy="25" r="1"/>
+  </g>
+  <!-- floodlights -->
+  <g>
+    <circle cx="150" cy="160" r="150" fill="url(#flood)" opacity=".55"/>
+    <circle cx="1450" cy="160" r="150" fill="url(#flood)" opacity=".55"/>
+    <rect x="144" y="170" width="12" height="260" fill="#2b2750"/><rect x="1444" y="170" width="12" height="260" fill="#2b2750"/>
+    <rect x="120" y="150" width="60" height="26" rx="4" fill="#fff"/><rect x="1420" y="150" width="60" height="26" rx="4" fill="#fff"/>
+  </g>
+  <!-- outer bowl -->
+  <ellipse cx="800" cy="520" rx="760" ry="360" fill="url(#bowl)"/>
+  <ellipse cx="800" cy="520" rx="760" ry="360" fill="url(#crowd)" opacity=".8"/>
+  <ellipse cx="800" cy="520" rx="640" ry="290" fill="#15122e" opacity=".85"/>
+  <ellipse cx="800" cy="520" rx="640" ry="290" fill="url(#crowd)" opacity=".55"/>
+  <ellipse cx="800" cy="520" rx="520" ry="225" fill="#0f0d24"/>
+  <!-- pitch -->
+  <ellipse cx="800" cy="520" rx="480" ry="198" fill="url(#grass)"/>
+  <g fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="3">
+    <ellipse cx="800" cy="520" rx="480" ry="198"/>
+    <line x1="800" y1="322" x2="800" y2="718"/>
+    <ellipse cx="800" cy="520" rx="80" ry="40"/>
+    <rect x="330" y="450" width="110" height="140"/><rect x="1160" y="450" width="110" height="140"/>
+  </g>
+  <g opacity=".12" fill="#000">
+    <rect x="320" y="322" width="80" height="396"/><rect x="480" y="322" width="80" height="396"/>
+    <rect x="640" y="322" width="80" height="396"/><rect x="800" y="322" width="80" height="396"/>
+    <rect x="960" y="322" width="80" height="396"/><rect x="1120" y="322" width="80" height="396"/>
+  </g>
+</svg>

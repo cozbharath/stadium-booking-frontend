@@ -381,7 +381,7 @@ function Payment() {
                 },
 
                 theme: {
-                    color: "#2563eb"
+                    color: "#f84464"
                 },
 
                 handler:

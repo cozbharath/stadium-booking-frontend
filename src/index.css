@@ -15,9 +15,9 @@ html {
 body {
     font-family: Arial, Helvetica, sans-serif;
 
-    background: #eef7ff;
+    background: #f5f5f7;
 
-    color: #172554;
+    color: #0f0f1a;
 
     min-height: 100vh;
 
@@ -89,7 +89,7 @@ main {
 }
 
 .login-logo a span {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .login-logo p {
@@ -112,7 +112,7 @@ main {
 }
 
 .login-nav a {
-    color: #172554;
+    color: #0f0f1a;
 
     font-size: 15px;
 
@@ -122,18 +122,18 @@ main {
 }
 
 .login-nav a:hover {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .login-nav .active {
-    color: #2563eb;
+    color: #f84464;
 }
 
 
 /* Register */
 
 .login-register-btn {
-    background: #2563eb !important;
+    background: #f84464 !important;
 
     color: white !important;
 
@@ -144,13 +144,13 @@ main {
     font-weight: 600 !important;
 
     box-shadow:
-        0 5px 15px rgba(37, 99, 235, 0.25);
+        0 5px 15px rgba(248, 68, 100, 0.25);
 
     transition: 0.2s;
 }
 
 .login-register-btn:hover {
-    background: #1d4ed8 !important;
+    background: #dc3558 !important;
 
     transform: translateY(-1px);
 }
@@ -215,11 +215,11 @@ main {
 }
 
 .navbar-links a:hover {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .navbar-links .register-btn {
-    background: #2563eb;
+    background: #f84464;
 
     color: white;
 
@@ -229,7 +229,7 @@ main {
 }
 
 .navbar-links .register-btn:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 
     color: white;
 }
@@ -245,7 +245,7 @@ main {
 
     margin: 0;
 
-    background: #f5f9ff;
+    background: #fafafc;
 
     box-shadow: none;
 }
@@ -260,7 +260,7 @@ section {
 }
 
 section h1 {
-    color: #123b78;
+    color: #1a1a2e;
 
     font-size: 32px;
 
@@ -268,7 +268,7 @@ section h1 {
 }
 
 section h2 {
-    color: #123b78;
+    color: #1a1a2e;
 
     margin-bottom: 15px;
 }
@@ -287,7 +287,7 @@ section p {
 button {
     border: none;
 
-    background: #2563eb;
+    background: #f84464;
 
     color: white;
 
@@ -301,7 +301,7 @@ button {
 }
 
 button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 
@@ -334,7 +334,7 @@ textarea {
 
     padding: 12px 14px;
 
-    border: 1px solid #dbe4f0;
+    border: 1px solid #e8e8ee;
 
     border-radius: 7px;
 
@@ -348,11 +348,11 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: #2563eb;
+    border-color: #f84464;
 
     box-shadow:
         0 0 0 3px
-        rgba(37, 99, 235, 0.1);
+        rgba(248, 68, 100, 0.1);
 }
 
 
@@ -377,7 +377,7 @@ footer {
 
 footer h3,
 footer h4 {
-    color: #123b78;
+    color: #1a1a2e;
 
     margin-bottom: 10px;
 }
@@ -412,7 +412,7 @@ footer p {
         linear-gradient(
             135deg,
             #eff8ff,
-            #dbeafe
+            #ffe3e8
         );
 
     padding: 70px 6%;
@@ -427,7 +427,7 @@ footer p {
 }
 
 .hero-tag {
-    color: #2563eb !important;
+    color: #f84464 !important;
 
     font-size: 12px;
 
@@ -439,7 +439,7 @@ footer p {
 }
 
 .hero-content h1 {
-    color: #123b78;
+    color: #1a1a2e;
 
     font-size: 52px;
 
@@ -472,7 +472,7 @@ footer p {
 /* Home Buttons */
 
 .primary-btn {
-    background: #2563eb !important;
+    background: #f84464 !important;
 
     color: white !important;
 
@@ -484,15 +484,15 @@ footer p {
 }
 
 .primary-btn:hover {
-    background: #1d4ed8 !important;
+    background: #dc3558 !important;
 }
 
 .secondary-btn {
     background: white !important;
 
-    color: #2563eb !important;
+    color: #f84464 !important;
 
-    border: 1px solid #2563eb;
+    border: 1px solid #f84464;
 
     padding: 13px 25px !important;
 
@@ -502,7 +502,7 @@ footer p {
 }
 
 .secondary-btn:hover {
-    background: #eff6ff !important;
+    background: #fff1f3 !important;
 }
 
 
@@ -524,7 +524,7 @@ footer p {
     justify-content: center;
 
     box-shadow:
-        0 20px 50px rgba(30, 64, 175, 0.15);
+        0 20px 50px rgba(192, 38, 74, 0.15);
 }
 
 .hero-card-top {
@@ -532,7 +532,7 @@ footer p {
 
     justify-content: space-between;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 11px;
 
@@ -579,7 +579,7 @@ footer p {
 }
 
 .hero-card-info strong {
-    color: #123b78;
+    color: #1a1a2e;
 
     font-size: 22px;
 }
@@ -604,7 +604,7 @@ footer p {
 }
 
 .section-heading p {
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 12px;
 
@@ -629,7 +629,7 @@ footer p {
 }
 
 .feature-card {
-    background: #f8fbff;
+    background: #fafafc;
 
     border: 1px solid #e2e8f0;
 
@@ -655,7 +655,7 @@ footer p {
 
     justify-content: center;
 
-    background: #dbeafe;
+    background: #ffe3e8;
 
     border-radius: 10px;
 
@@ -665,7 +665,7 @@ footer p {
 }
 
 .feature-card h3 {
-    color: #123b78;
+    color: #1a1a2e;
 
     margin-bottom: 10px;
 }
@@ -678,7 +678,7 @@ footer p {
 /* Home CTA */
 
 .home-cta {
-    background: #123b78;
+    background: #1a1a2e;
 
     color: white;
 
@@ -700,7 +700,7 @@ footer p {
 }
 
 .home-cta p {
-    color: #dbeafe;
+    color: #ffe3e8;
 }
 
 .home-cta a {
@@ -708,7 +708,7 @@ footer p {
 
     background: white !important;
 
-    color: #2563eb !important;
+    color: #f84464 !important;
 }
 
 
@@ -717,15 +717,15 @@ footer p {
 ========================================================= */
 
 .events-page {
-    background: #f5f9ff;
+    background: #fafafc;
 }
 
 .events-header {
     background:
         linear-gradient(
             135deg,
-            #eaf5ff,
-            #dbeafe
+            #f5f5f7,
+            #ffe3e8
         );
 
     padding: 65px 6%;
@@ -734,7 +734,7 @@ footer p {
 }
 
 .page-tag {
-    color: #2563eb !important;
+    color: #f84464 !important;
 
     font-size: 12px !important;
 
@@ -750,7 +750,7 @@ footer p {
 
     line-height: 1.12;
 
-    color: #123b78;
+    color: #1a1a2e;
 
     margin-bottom: 18px;
 }
@@ -819,7 +819,7 @@ footer p {
 
     box-shadow:
         0 8px 25px
-        rgba(37, 99, 235, 0.08);
+        rgba(248, 68, 100, 0.08);
 
     transition:
         transform 0.2s,
@@ -831,7 +831,7 @@ footer p {
 
     box-shadow:
         0 15px 35px
-        rgba(37, 99, 235, 0.15);
+        rgba(248, 68, 100, 0.15);
 }
 
 .event-card-image {
@@ -840,8 +840,8 @@ footer p {
     background:
         linear-gradient(
             135deg,
-            #2563eb,
-            #0ea5e9
+            #f84464,
+            #ff8a5c
         );
 
     display: flex;
@@ -854,7 +854,7 @@ footer p {
 .event-card-image span {
     background: white;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 11px;
 
@@ -878,7 +878,7 @@ footer p {
 }
 
 .event-card-content h3 {
-    color: #123b78;
+    color: #1a1a2e;
 
     font-size: 20px;
 
@@ -945,7 +945,7 @@ footer p {
 
     margin: 0 !important;
 
-    background: #2563eb !important;
+    background: #f84464 !important;
 
     color: white !important;
 
@@ -959,7 +959,7 @@ footer p {
 }
 
 .event-button:hover {
-    background: #1d4ed8 !important;
+    background: #dc3558 !important;
 }
 
 
@@ -977,9 +977,9 @@ footer p {
     background:
         linear-gradient(
             135deg,
-            #0ea5e9,
-            #2563eb,
-            #1d4ed8
+            #ff8a5c,
+            #f84464,
+            #dc3558
         );
 }
 
@@ -1061,7 +1061,7 @@ footer p {
 }
 
 .stadium-tag {
-    color: #60a5fa !important;
+    color: #ff8fa4 !important;
 
     font-size: 13px;
 
@@ -1085,7 +1085,7 @@ footer p {
 }
 
 .stadium-description {
-    color: #e0f2fe !important;
+    color: #fff1f3 !important;
 
     font-size: 18px;
 
@@ -1177,7 +1177,7 @@ footer p {
 
     height: 5px;
 
-    background: #0ea5e9;
+    background: #ff8a5c;
 
     border-radius: 5px;
 
@@ -1216,7 +1216,7 @@ footer p {
 }
 
 .login-card-header h2 {
-    color: #172554;
+    color: #0f0f1a;
 
     font-size: 34px;
 
@@ -1241,7 +1241,7 @@ footer p {
 .login-form-group label {
     display: block;
 
-    color: #172554;
+    color: #0f0f1a;
 
     font-size: 14px;
 
@@ -1266,13 +1266,13 @@ footer p {
     padding: 0 48px;
 
     border:
-        1px solid #dbe4f0;
+        1px solid #e8e8ee;
 
     border-radius: 8px;
 
     background: white;
 
-    color: #172554;
+    color: #0f0f1a;
 
     font-size: 15px;
 
@@ -1282,11 +1282,11 @@ footer p {
 }
 
 .input-wrapper input:focus {
-    border-color: #2563eb;
+    border-color: #f84464;
 
     box-shadow:
         0 0 0 3px
-        rgba(37, 99, 235, 0.1);
+        rgba(248, 68, 100, 0.1);
 }
 
 .input-wrapper input::placeholder {
@@ -1324,7 +1324,7 @@ footer p {
 .password-toggle:hover {
     background: transparent !important;
 
-    color: #2563eb !important;
+    color: #f84464 !important;
 }
 
 
@@ -1369,7 +1369,7 @@ footer p {
 .forgot-password {
     background: transparent !important;
 
-    color: #2563eb !important;
+    color: #f84464 !important;
 
     padding: 0;
 
@@ -1401,8 +1401,8 @@ footer p {
     background:
         linear-gradient(
             90deg,
-            #2563eb,
-            #0ea5e9
+            #f84464,
+            #ff8a5c
         );
 
     color: white;
@@ -1413,7 +1413,7 @@ footer p {
 
     box-shadow:
         0 8px 20px
-        rgba(37, 99, 235, 0.25);
+        rgba(248, 68, 100, 0.25);
 
     transition: 0.2s;
 }
@@ -1423,7 +1423,7 @@ footer p {
 
     box-shadow:
         0 12px 25px
-        rgba(37, 99, 235, 0.3);
+        rgba(248, 68, 100, 0.3);
 }
 
 
@@ -1476,10 +1476,10 @@ footer p {
 
     background: white !important;
 
-    color: #172554 !important;
+    color: #0f0f1a !important;
 
     border:
-        1px solid #dbe4f0;
+        1px solid #e8e8ee;
 
     border-radius: 7px;
 
@@ -1534,7 +1534,7 @@ footer p {
 }
 
 .register-message a {
-    color: #2563eb;
+    color: #f84464;
 
     font-weight: 600;
 }
@@ -1870,9 +1870,9 @@ footer p {
     background:
         linear-gradient(
             135deg,
-            #0ea5e9,
-            #2563eb,
-            #1d4ed8
+            #ff8a5c,
+            #f84464,
+            #dc3558
         );
 
     display: flex;
@@ -1931,9 +1931,9 @@ footer p {
     background:
         linear-gradient(
             135deg,
-            #123b78,
-            #2563eb,
-            #0ea5e9
+            #1a1a2e,
+            #f84464,
+            #ff8a5c
         );
 
     overflow: hidden;
@@ -1993,7 +1993,7 @@ footer p {
 /* Tag */
 
 .register-tag {
-    color: #bfdbfe !important;
+    color: #ffc9d3 !important;
 
     font-size: 13px;
 
@@ -2021,7 +2021,7 @@ footer p {
 /* Description */
 
 .register-info > p:not(.register-tag) {
-    color: #dbeafe;
+    color: #ffe3e8;
 
     max-width: 500px;
 
@@ -2111,7 +2111,7 @@ footer p {
 }
 
 .register-card-header h2 {
-    color: #172554;
+    color: #0f0f1a;
 
     font-size: 32px;
 
@@ -2136,7 +2136,7 @@ footer p {
 .register-form-group label {
     display: block;
 
-    color: #172554;
+    color: #0f0f1a;
 
     font-size: 14px;
 
@@ -2153,13 +2153,13 @@ footer p {
     padding: 0 15px;
 
     border:
-        1px solid #dbe4f0;
+        1px solid #e8e8ee;
 
     border-radius: 7px;
 
     background: white;
 
-    color: #172554;
+    color: #0f0f1a;
 
     font-size: 14px;
 
@@ -2169,11 +2169,11 @@ footer p {
 }
 
 .register-form-group input:focus {
-    border-color: #2563eb;
+    border-color: #f84464;
 
     box-shadow:
         0 0 0 3px
-        rgba(37, 99, 235, 0.1);
+        rgba(248, 68, 100, 0.1);
 }
 
 .register-form-group input::placeholder {
@@ -2199,8 +2199,8 @@ footer p {
     background:
         linear-gradient(
             90deg,
-            #2563eb,
-            #0ea5e9
+            #f84464,
+            #ff8a5c
         );
 
     color: white;
@@ -2211,7 +2211,7 @@ footer p {
 
     box-shadow:
         0 8px 20px
-        rgba(37, 99, 235, 0.22);
+        rgba(248, 68, 100, 0.22);
 
     transition: 0.2s;
 }
@@ -2221,7 +2221,7 @@ footer p {
 
     box-shadow:
         0 12px 25px
-        rgba(37, 99, 235, 0.30);
+        rgba(248, 68, 100, 0.30);
 }
 
 
@@ -2240,7 +2240,7 @@ footer p {
 }
 
 .login-message a {
-    color: #2563eb;
+    color: #f84464;
 
     font-weight: 600;
 }
@@ -2314,7 +2314,7 @@ footer p {
 ========================================================= */
 
 .event-details-page {
-    background: #f5f9ff;
+    background: #fafafc;
 
     min-height: calc(100vh - 95px);
 }
@@ -2370,7 +2370,7 @@ footer p {
 .event-category {
     display: inline-block;
 
-    background: #2563eb;
+    background: #f84464;
 
     color: white;
 
@@ -2398,7 +2398,7 @@ footer p {
 }
 
 .event-details-hero p {
-    color: #dbeafe;
+    color: #ffe3e8;
 
     font-size: 17px;
 }
@@ -2418,7 +2418,7 @@ footer p {
 
     align-items: start;
 
-    background: #f5f9ff;
+    background: #fafafc;
 
     padding: 55px 6%;
 }
@@ -2435,7 +2435,7 @@ footer p {
 
     box-shadow:
         0 8px 25px
-        rgba(37, 99, 235, 0.07);
+        rgba(248, 68, 100, 0.07);
 }
 
 .event-description {
@@ -2483,7 +2483,7 @@ footer p {
 }
 
 .event-detail-item {
-    background: #f8fbff;
+    background: #fafafc;
 
     border: 1px solid #e2e8f0;
 
@@ -2509,7 +2509,7 @@ footer p {
 }
 
 .event-detail-item strong {
-    color: #123b78;
+    color: #1a1a2e;
 
     font-size: 14px;
 }
@@ -2523,8 +2523,8 @@ footer p {
     background:
         linear-gradient(
             145deg,
-            #123b78,
-            #2563eb
+            #1a1a2e,
+            #f84464
         );
 
     color: white;
@@ -2539,11 +2539,11 @@ footer p {
 
     box-shadow:
         0 15px 35px
-        rgba(37, 99, 235, 0.20);
+        rgba(248, 68, 100, 0.20);
 }
 
 .event-booking-card > p {
-    color: #bfdbfe;
+    color: #ffc9d3;
 
     font-size: 10px;
 
@@ -2565,7 +2565,7 @@ footer p {
 .event-booking-card > span {
     display: block;
 
-    color: #dbeafe;
+    color: #ffe3e8;
 
     font-size: 14px;
 
@@ -2585,7 +2585,7 @@ footer p {
 
     background: white !important;
 
-    color: #2563eb !important;
+    color: #f84464 !important;
 
     padding: 13px 20px !important;
 
@@ -2597,7 +2597,7 @@ footer p {
 }
 
 .event-book-now:hover {
-    background: #eff6ff !important;
+    background: #fff1f3 !important;
 
     transform: translateY(-1px);
 }
@@ -2659,7 +2659,7 @@ footer p {
 .seat-selection-page {
     min-height: calc(100vh - 95px);
 
-    background: #f5f9ff;
+    background: #fafafc;
 }
 
 
@@ -2671,8 +2671,8 @@ footer p {
     background:
         linear-gradient(
             135deg,
-            #eaf5ff,
-            #dbeafe
+            #f5f5f7,
+            #ffe3e8
         );
 
     padding: 45px 6%;
@@ -2687,7 +2687,7 @@ footer p {
 .seat-selection-header h1 {
     font-size: 38px;
 
-    color: #123b78;
+    color: #1a1a2e;
 
     margin-bottom: 10px;
 }
@@ -2699,7 +2699,7 @@ footer p {
 .event-id {
     background: white;
 
-    color: #2563eb;
+    color: #f84464;
 
     padding: 12px 18px;
 
@@ -2711,7 +2711,7 @@ footer p {
 
     box-shadow:
         0 5px 15px
-        rgba(37, 99, 235, 0.08);
+        rgba(248, 68, 100, 0.08);
 }
 
 
@@ -2746,13 +2746,13 @@ footer p {
 
     box-shadow:
         0 8px 25px
-        rgba(37, 99, 235, 0.07);
+        rgba(248, 68, 100, 0.07);
 }
 
 .stadium-label {
     text-align: center;
 
-    color: #123b78;
+    color: #1a1a2e;
 
     font-size: 12px;
 
@@ -2776,9 +2776,9 @@ footer p {
     background:
         linear-gradient(
             90deg,
-            #123b78,
-            #2563eb,
-            #123b78
+            #1a1a2e,
+            #f84464,
+            #1a1a2e
         );
 
     color: white;
@@ -2800,7 +2800,7 @@ footer p {
 
     box-shadow:
         0 8px 20px
-        rgba(37, 99, 235, 0.18);
+        rgba(248, 68, 100, 0.18);
 }
 
 
@@ -2850,9 +2850,9 @@ footer p {
 
     border-radius: 7px;
 
-    background: #dbeafe;
+    background: #ffe3e8;
 
-    color: #2563eb;
+    color: #f84464;
 
     border:
         1px solid #93c5fd;
@@ -2867,16 +2867,16 @@ footer p {
 .seat:hover {
     transform: translateY(-2px);
 
-    background: #bfdbfe;
+    background: #ffc9d3;
 }
 
 
 /* Available */
 
 .seat.available {
-    background: #eff6ff;
+    background: #fff1f3;
 
-    color: #2563eb;
+    color: #f84464;
 
     border-color: #93c5fd;
 }
@@ -2898,15 +2898,15 @@ footer p {
 /* Selected */
 
 .seat.selected {
-    background: #2563eb;
+    background: #f84464;
 
     color: white;
 
-    border-color: #2563eb;
+    border-color: #f84464;
 
     box-shadow:
         0 5px 15px
-        rgba(37, 99, 235, 0.30);
+        rgba(248, 68, 100, 0.30);
 }
 
 
@@ -2951,13 +2951,13 @@ footer p {
 }
 
 .legend-box.available {
-    background: #eff6ff;
+    background: #fff1f3;
 
     border: 1px solid #93c5fd;
 }
 
 .legend-box.selected {
-    background: #2563eb;
+    background: #f84464;
 }
 
 .legend-box.booked {
@@ -2980,7 +2980,7 @@ footer p {
 
     box-shadow:
         0 8px 25px
-        rgba(37, 99, 235, 0.07);
+        rgba(248, 68, 100, 0.07);
 
     position: sticky;
 
@@ -3028,7 +3028,7 @@ footer p {
 }
 
 .selected-seat strong {
-    color: #2563eb;
+    color: #f84464;
 }
 
 
@@ -3047,7 +3047,7 @@ footer p {
 }
 
 .summary-total strong {
-    color: #123b78;
+    color: #1a1a2e;
 
     font-size: 25px;
 }
@@ -3065,8 +3065,8 @@ footer p {
     background:
         linear-gradient(
             90deg,
-            #2563eb,
-            #0ea5e9
+            #f84464,
+            #ff8a5c
         );
 
     color: white;
@@ -3089,7 +3089,7 @@ footer p {
 
     box-shadow:
         0 8px 20px
-        rgba(37, 99, 235, 0.25);
+        rgba(248, 68, 100, 0.25);
 }
 
 .continue-button.disabled {
@@ -3175,7 +3175,7 @@ footer p {
 .booking-page {
     width: 100%;
     min-height: calc(100vh - 140px);
-    background: #eef7ff;
+    background: #f5f5f7;
 }
 
 /* Header */
@@ -3183,7 +3183,7 @@ footer p {
 .booking-header {
     width: 100%;
     padding: 55px 7%;
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    background: linear-gradient(135deg, #ff8a5c, #f84464);
     color: white;
 }
 
@@ -3198,7 +3198,7 @@ footer p {
     margin: 0;
     font-size: 16px;
     line-height: 1.7;
-    color: #dbeafe;
+    color: #ffe3e8;
 }
 
 /* Content */
@@ -3225,8 +3225,8 @@ footer p {
     background: white;
     border-radius: 18px;
     padding: 28px;
-    border: 1px solid #dbeafe;
-    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.07);
+    border: 1px solid #ffe3e8;
+    box-shadow: 0 8px 25px rgba(192, 38, 74, 0.07);
 }
 
 .booking-card-title,
@@ -3286,8 +3286,8 @@ footer p {
 /* Seat Count */
 
 .seat-count {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
     padding: 8px 14px;
     border-radius: 20px;
     font-size: 13px;
@@ -3320,7 +3320,7 @@ footer p {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    background: #2563eb;
+    background: #f84464;
     color: white;
     font-size: 13px;
     font-weight: 800;
@@ -3351,7 +3351,7 @@ footer p {
 /* Information Card */
 
 .booking-info-card {
-    background: #f8fbff;
+    background: #fafafc;
 }
 
 .booking-info-card h2 {
@@ -3376,8 +3376,8 @@ footer p {
     background: white;
     border-radius: 18px;
     padding: 28px;
-    border: 1px solid #dbeafe;
-    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.08);
+    border: 1px solid #ffe3e8;
+    box-shadow: 0 8px 25px rgba(192, 38, 74, 0.08);
     position: sticky;
     top: 25px;
 }
@@ -3424,7 +3424,7 @@ footer p {
 }
 
 .summary-total strong {
-    color: #2563eb;
+    color: #f84464;
     font-size: 24px;
     font-weight: 800;
 }
@@ -3437,7 +3437,7 @@ footer p {
     padding: 14px 20px;
     text-align: center;
     border-radius: 10px;
-    background: #2563eb;
+    background: #f84464;
     color: white;
     font-size: 14px;
     font-weight: 700;
@@ -3446,7 +3446,7 @@ footer p {
 }
 
 .confirm-booking-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
     transform: translateY(-1px);
 }
 
@@ -3635,13 +3635,13 @@ footer p {
 }
 
 .payment-method:hover {
-    border-color: #2563eb;
+    border-color: #f84464;
     transform: translateY(-1px);
 }
 
 .payment-method.active {
-    border-color: #2563eb;
-    background: #eff6ff;
+    border-color: #f84464;
+    background: #fff1f3;
 }
 
 .payment-method-icon {
@@ -3659,7 +3659,7 @@ footer p {
 }
 
 .payment-method.active .payment-method-icon {
-    background: #dbeafe;
+    background: #ffe3e8;
 }
 
 .payment-method-content {
@@ -3681,7 +3681,7 @@ footer p {
 }
 
 .payment-radio {
-    color: #2563eb;
+    color: #f84464;
     font-size: 20px;
 }
 
@@ -3725,8 +3725,8 @@ footer p {
 
 .payment-form-group input:focus,
 .payment-form-group select:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: #f84464;
+    box-shadow: 0 0 0 3px rgba(248, 68, 100, 0.1);
 }
 
 .payment-form-row {
@@ -3773,7 +3773,7 @@ footer p {
     border: none;
     border-radius: 10px;
 
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 
     font-size: 15px;
@@ -3784,7 +3784,7 @@ footer p {
 }
 
 .pay-now-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
     transform: translateY(-1px);
 }
 
@@ -3898,7 +3898,7 @@ footer p {
 }
 
 .payment-total-row strong {
-    color: #2563eb;
+    color: #f84464;
     font-size: 25px;
 }
 
@@ -4036,7 +4036,7 @@ footer p {
     padding: 13px 20px;
 
     border-radius: 9px;
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 
     text-decoration: none;
@@ -4049,7 +4049,7 @@ footer p {
 }
 
 .new-booking-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
     transform: translateY(-1px);
 }
 
@@ -4094,7 +4094,7 @@ footer p {
     justify-content: center;
 
     border-radius: 11px;
-    background: #eff6ff;
+    background: #fff1f3;
 
     font-size: 20px;
 }
@@ -4273,11 +4273,11 @@ footer p {
 .view-booking-button {
     padding: 9px 15px;
 
-    border: 1px solid #dbeafe;
+    border: 1px solid #ffe3e8;
     border-radius: 8px;
 
-    color: #2563eb;
-    background: #eff6ff;
+    color: #f84464;
+    background: #fff1f3;
 
     text-decoration: none;
 
@@ -4288,7 +4288,7 @@ footer p {
 }
 
 .view-booking-button:hover {
-    background: #dbeafe;
+    background: #ffe3e8;
 }
 
 /* Empty */
@@ -4313,7 +4313,7 @@ footer p {
 
     border-radius: 50%;
 
-    background: #eff6ff;
+    background: #fff1f3;
 
     font-size: 28px;
 }
@@ -4501,8 +4501,8 @@ footer p {
 
     border-radius: 7px;
 
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 
     font-size: 10px;
     font-weight: 800;
@@ -4636,8 +4636,8 @@ footer p {
 
     border-radius: 9px;
 
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 
     font-size: 12px;
     font-weight: 800;
@@ -4798,7 +4798,7 @@ footer p {
 }
 
 .details-total-row strong {
-    color: #2563eb;
+    color: #f84464;
     font-size: 24px;
 }
 
@@ -4829,12 +4829,12 @@ footer p {
 }
 
 .view-ticket-button {
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 }
 
 .view-ticket-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 .back-bookings-button {
@@ -4854,11 +4854,11 @@ footer p {
 
     border-radius: 10px;
 
-    background: #eff6ff;
+    background: #fff1f3;
 }
 
 .booking-help-box strong {
-    color: #1e40af;
+    color: #c0264a;
     font-size: 12px;
 }
 
@@ -4963,7 +4963,7 @@ footer p {
 
     border-radius: 9px;
 
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 
     text-decoration: none;
@@ -4977,7 +4977,7 @@ footer p {
 }
 
 .new-ticket-booking-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
     transform: translateY(-1px);
 }
 
@@ -5043,8 +5043,8 @@ footer p {
 
     border-radius: 5px;
 
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 
     font-size: 9px;
     font-weight: 800;
@@ -5174,14 +5174,14 @@ footer p {
 
     gap: 4px;
 
-    border: 1px solid #dbeafe;
+    border: 1px solid #ffe3e8;
     border-radius: 9px;
 
-    background: #eff6ff;
+    background: #fff1f3;
 }
 
 .ticket-seat span {
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 15px;
     font-weight: 800;
@@ -5231,12 +5231,12 @@ footer p {
 }
 
 .ticket-booking-button {
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 }
 
 .ticket-booking-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 /* QR */
@@ -5433,7 +5433,7 @@ footer p {
 
     border-radius: 50%;
 
-    background: #eff6ff;
+    background: #fff1f3;
 
     font-size: 28px;
 }
@@ -5587,7 +5587,7 @@ footer p {
 
     box-sizing: border-box;
 
-    border-bottom: 1px solid #dbeafe;
+    border-bottom: 1px solid #ffe3e8;
 
     position: fixed;
     top: 0;
@@ -5621,7 +5621,7 @@ footer p {
 }
 
 .customer-navbar-brand a span {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .customer-navbar-brand small {
@@ -5663,8 +5663,8 @@ footer p {
 }
 
 .customer-navbar-links a:hover {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 /* Logout */
@@ -5674,7 +5674,7 @@ footer p {
 
     border-radius: 8px;
 
-    background: #2563eb;
+    background: #f84464;
     color: white;
 
     text-decoration: none;
@@ -5686,7 +5686,7 @@ footer p {
 }
 
 .customer-logout-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 /* =========================================================
@@ -5714,7 +5714,7 @@ footer p {
 
     background: #ffffff;
 
-    border-right: 1px solid #dbeafe;
+    border-right: 1px solid #ffe3e8;
 
     position: fixed;
 
@@ -5752,8 +5752,8 @@ footer p {
 
     background: linear-gradient(
         135deg,
-        #0ea5e9,
-        #2563eb
+        #ff8a5c,
+        #f84464
     );
 
     display: flex;
@@ -5828,14 +5828,14 @@ footer p {
 }
 
 .sidebar-link:hover {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 .sidebar-link.active {
-    background: #dbeafe;
+    background: #ffe3e8;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-weight: 700;
 }
@@ -5873,7 +5873,7 @@ footer p {
 
     margin-bottom: 10px;
 
-    background: #eff6ff;
+    background: #fff1f3;
 
     border-radius: 10px;
 }
@@ -5888,7 +5888,7 @@ footer p {
 
     border-radius: 50%;
 
-    background: #2563eb;
+    background: #f84464;
 
     color: white;
 
@@ -5901,7 +5901,7 @@ footer p {
 .sidebar-help strong {
     display: block;
 
-    color: #1e3a8a;
+    color: #c0264a;
 
     font-size: 11px;
 }
@@ -6109,7 +6109,7 @@ footer p {
         height: auto;
 
         border-right: none;
-        border-bottom: 1px solid #dbeafe;
+        border-bottom: 1px solid #ffe3e8;
     }
 
     .customer-sidebar-heading {
@@ -6170,7 +6170,7 @@ footer p {
 .customer-dashboard-page {
     width: 100%;
     min-height: calc(100vh - 72px);
-    background: #eef7ff;
+    background: #f5f5f7;
     padding-bottom: 45px;
 }
 
@@ -6186,8 +6186,8 @@ footer p {
 
     background: linear-gradient(
         135deg,
-        #0ea5e9,
-        #2563eb
+        #ff8a5c,
+        #f84464
     );
 
     color: white;
@@ -6211,7 +6211,7 @@ footer p {
 
     margin: 0;
 
-    color: #dbeafe;
+    color: #ffe3e8;
 
     font-size: 14px;
     line-height: 1.6;
@@ -6225,7 +6225,7 @@ footer p {
     border-radius: 9px;
 
     background: white;
-    color: #2563eb;
+    color: #f84464;
 
     text-decoration: none;
 
@@ -6260,7 +6260,7 @@ footer p {
 .dashboard-stat-card {
     background: white;
 
-    border: 1px solid #dbeafe;
+    border: 1px solid #ffe3e8;
 
     border-radius: 14px;
 
@@ -6272,7 +6272,7 @@ footer p {
     gap: 14px;
 
     box-shadow:
-        0 5px 18px rgba(30, 64, 175, 0.05);
+        0 5px 18px rgba(192, 38, 74, 0.05);
 }
 
 .dashboard-stat-icon {
@@ -6287,9 +6287,9 @@ footer p {
 
     border-radius: 11px;
 
-    background: #dbeafe;
+    background: #ffe3e8;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 17px;
     font-weight: 800;
@@ -6336,7 +6336,7 @@ footer p {
 .dashboard-card {
     background: white;
 
-    border: 1px solid #dbeafe;
+    border: 1px solid #ffe3e8;
 
     border-radius: 16px;
 
@@ -6345,7 +6345,7 @@ footer p {
     box-sizing: border-box;
 
     box-shadow:
-        0 6px 20px rgba(30, 64, 175, 0.05);
+        0 6px 20px rgba(192, 38, 74, 0.05);
 }
 
 .dashboard-card-heading {
@@ -6408,8 +6408,8 @@ footer p {
     background:
         linear-gradient(
             135deg,
-            #1d4ed8,
-            #0ea5e9
+            #dc3558,
+            #ff8a5c
         );
 
     display: flex;
@@ -6471,7 +6471,7 @@ footer p {
 
     padding-top: 14px;
 
-    color: #2563eb;
+    color: #f84464;
 
     text-decoration: none;
 
@@ -6480,7 +6480,7 @@ footer p {
 }
 
 .dashboard-view-ticket:hover {
-    color: #1d4ed8;
+    color: #dc3558;
 }
 
 /* =========================================================
@@ -6514,9 +6514,9 @@ footer p {
 }
 
 .dashboard-action:hover {
-    background: #eff6ff;
+    background: #fff1f3;
 
-    border-color: #bfdbfe;
+    border-color: #ffc9d3;
 
     transform: translateX(2px);
 }
@@ -6533,9 +6533,9 @@ footer p {
 
     border-radius: 9px;
 
-    background: #dbeafe;
+    background: #ffe3e8;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 14px;
 }
@@ -6577,7 +6577,7 @@ footer p {
 }
 
 .dashboard-see-all {
-    color: #2563eb;
+    color: #f84464;
 
     text-decoration: none;
 
@@ -6586,7 +6586,7 @@ footer p {
 }
 
 .dashboard-see-all:hover {
-    color: #1d4ed8;
+    color: #dc3558;
 }
 
 .recent-booking-row {
@@ -6638,7 +6638,7 @@ footer p {
 }
 
 .recent-amount {
-    color: #2563eb !important;
+    color: #f84464 !important;
 
     font-size: 14px !important;
 }
@@ -6728,7 +6728,7 @@ footer p {
 
 .customer-layout {
     min-height: 100vh;
-    background: #eef7ff;
+    background: #f5f5f7;
 }
 
 .customer-navbar {
@@ -6742,7 +6742,7 @@ footer p {
     padding: 0 35px;
     box-sizing: border-box;
 
-    border-bottom: 1px solid #dbeafe;
+    border-bottom: 1px solid #ffe3e8;
 
     position: fixed;
     top: 0;
@@ -6769,7 +6769,7 @@ footer p {
 }
 
 .customer-navbar-brand a span {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .customer-navbar-brand small {
@@ -6810,8 +6810,8 @@ footer p {
 }
 
 .customer-notification:hover {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 .notification-dot {
@@ -6844,7 +6844,7 @@ footer p {
 
     border-radius: 10px;
 
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    background: linear-gradient(135deg, #ff8a5c, #f84464);
 
     color: #ffffff;
 
@@ -6873,7 +6873,7 @@ footer p {
 
     border-radius: 8px;
 
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 
     text-decoration: none;
@@ -6885,7 +6885,7 @@ footer p {
 }
 
 .customer-logout-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 .customer-layout-body {
@@ -6905,7 +6905,7 @@ footer p {
 
     background: #ffffff;
 
-    border-right: 1px solid #dbeafe;
+    border-right: 1px solid #ffe3e8;
 
     position: fixed;
 
@@ -6972,15 +6972,15 @@ footer p {
 }
 
 .sidebar-link:hover {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 .sidebar-link.active {
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.20);
+    box-shadow: 0 4px 10px rgba(248, 68, 100, 0.20);
 }
 
 .sidebar-icon {
@@ -7009,7 +7009,7 @@ footer p {
     padding: 12px;
     margin-bottom: 10px;
 
-    background: #eff6ff;
+    background: #fff1f3;
 
     border-radius: 10px;
 }
@@ -7026,7 +7026,7 @@ footer p {
 
     border-radius: 50%;
 
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 
     font-size: 12px;
@@ -7035,7 +7035,7 @@ footer p {
 
 .sidebar-help strong {
     display: block;
-    color: #1e3a8a;
+    color: #c0264a;
     font-size: 10px;
 }
 
@@ -7191,7 +7191,7 @@ footer p {
 }
 
 .admin-navbar-brand a span {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .admin-navbar-brand small {
@@ -7242,8 +7242,8 @@ footer p {
 }
 
 .admin-notification:hover {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 .admin-notification-dot {
@@ -7278,7 +7278,7 @@ footer p {
 
     border-radius: 10px;
 
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    background: linear-gradient(135deg, #ff8a5c, #f84464);
 
     color: #ffffff;
 
@@ -7307,7 +7307,7 @@ footer p {
 
     border-radius: 8px;
 
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 
     text-decoration: none;
@@ -7319,7 +7319,7 @@ footer p {
 }
 
 .admin-logout-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 .admin-layout-body {
@@ -7430,10 +7430,10 @@ footer p {
 }
 
 .admin-sidebar-link.active {
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
 
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+    box-shadow: 0 4px 10px rgba(248, 68, 100, 0.25);
 }
 
 .admin-sidebar-icon {
@@ -7481,7 +7481,7 @@ footer p {
 
     border-radius: 50%;
 
-    background: #2563eb;
+    background: #f84464;
 
     color: #ffffff;
 
@@ -7633,7 +7633,7 @@ footer p {
 .admin-dashboard-header .page-tag {
     margin: 0;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 9px;
     font-weight: 800;
@@ -7709,9 +7709,9 @@ footer p {
 
     border-radius: 12px;
 
-    background: #eff6ff;
+    background: #fff1f3;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 20px;
 }
@@ -7823,11 +7823,11 @@ footer p {
 }
 
 .admin-quick-action:hover {
-    background: #eff6ff;
+    background: #fff1f3;
 
-    border-color: #bfdbfe;
+    border-color: #ffc9d3;
 
-    color: #2563eb;
+    color: #f84464;
 
     transform: translateY(-1px);
 }
@@ -7844,9 +7844,9 @@ footer p {
 
     border-radius: 9px;
 
-    background: #dbeafe;
+    background: #ffe3e8;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 16px;
 }
@@ -7902,9 +7902,9 @@ footer p {
 
     border-radius: 9px;
 
-    background: #eff6ff;
+    background: #fff1f3;
 
-    color: #2563eb;
+    color: #f84464;
 
     font-size: 17px;
 }
@@ -7983,7 +7983,7 @@ footer p {
 }
 
 .admin-view-all {
-    color: #2563eb;
+    color: #f84464;
 
     text-decoration: none;
 
@@ -8024,7 +8024,7 @@ footer p {
 }
 
 .admin-booking-amount {
-    color: #2563eb !important;
+    color: #f84464 !important;
     font-size: 13px !important;
 }
 
@@ -8153,7 +8153,7 @@ footer p {
         height: auto;
 
         border-right: none;
-        border-bottom: 1px solid #dbeafe;
+        border-bottom: 1px solid #ffe3e8;
     }
 
     .customer-sidebar-heading {
@@ -8390,7 +8390,7 @@ footer p {
 .admin-page-header h1 {
     margin: 5px 0 8px;
     font-size: 32px;
-    color: #123f7a;
+    color: #1a1a2e;
 }
 
 .admin-page-header p:not(.page-tag) {
@@ -8423,7 +8423,7 @@ footer p {
 
 .admin-management-stat strong {
     display: block;
-    color: #123f7a;
+    color: #1a1a2e;
     font-size: 27px;
 }
 
@@ -8451,7 +8451,7 @@ footer p {
 
 .admin-table-header h2 {
     margin: 0 0 5px;
-    color: #123f7a;
+    color: #1a1a2e;
     font-size: 21px;
 }
 
@@ -8469,7 +8469,7 @@ footer p {
 .admin-search-input,
 .admin-filter-select {
     height: 42px;
-    border: 1px solid #dbe3ef;
+    border: 1px solid #e8e8ee;
     border-radius: 8px;
     background: #ffffff;
     padding: 0 13px;
@@ -8488,7 +8488,7 @@ footer p {
 
 .admin-search-input:focus,
 .admin-filter-select:focus {
-    border-color: #2563eb;
+    border-color: #f84464;
 }
 
 
@@ -8521,14 +8521,14 @@ footer p {
 
 .admin-users-table td {
     padding: 16px 20px;
-    border-bottom: 1px solid #eef2f7;
+    border-bottom: 1px solid #f5f5f7;
     color: #475569;
     font-size: 13px;
     vertical-align: middle;
 }
 
 .admin-users-table tbody tr:hover {
-    background: #f8fbff;
+    background: #fafafc;
 }
 
 .admin-user-table-info {
@@ -8544,8 +8544,8 @@ footer p {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #dbeafe;
-    color: #2563eb;
+    background: #ffe3e8;
+    color: #f84464;
     font-size: 14px;
     font-weight: 700;
 }
@@ -8571,8 +8571,8 @@ footer p {
 }
 
 .admin-role-badge.customer {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 .admin-role-badge.staff {
@@ -8634,8 +8634,8 @@ footer p {
 }
 
 .admin-action-button.view:hover {
-    background: #eff6ff;
-    border-color: #bfdbfe;
+    background: #fff1f3;
+    border-color: #ffc9d3;
 }
 
 .admin-action-button.edit:hover {
@@ -8684,14 +8684,14 @@ footer p {
 }
 
 .pagination-buttons button:hover {
-    background: #eff6ff;
-    border-color: #bfdbfe;
-    color: #2563eb;
+    background: #fff1f3;
+    border-color: #ffc9d3;
+    color: #f84464;
 }
 
 .pagination-buttons button.active {
-    background: #2563eb;
-    border-color: #2563eb;
+    background: #f84464;
+    border-color: #f84464;
     color: #ffffff;
 }
 
@@ -8765,7 +8765,7 @@ footer p {
     justify-content: center;
     min-height: 42px;
     padding: 0 18px;
-    border: 1px solid #dbe3ef;
+    border: 1px solid #e8e8ee;
     border-radius: 8px;
     background: #ffffff;
     color: #334155;
@@ -8776,9 +8776,9 @@ footer p {
 }
 
 .admin-secondary-button:hover {
-    border-color: #bfdbfe;
-    background: #eff6ff;
-    color: #2563eb;
+    border-color: #ffc9d3;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 
@@ -8808,12 +8808,12 @@ footer p {
     gap: 20px;
     padding-bottom: 24px;
     margin-bottom: 25px;
-    border-bottom: 1px solid #eef2f7;
+    border-bottom: 1px solid #f5f5f7;
 }
 
 .admin-form-card-header h2 {
     margin: 5px 0 7px;
-    color: #123f7a;
+    color: #1a1a2e;
     font-size: 21px;
 }
 
@@ -8827,7 +8827,7 @@ footer p {
     width: 52px;
     height: 52px;
     border-radius: 12px;
-    background: #dbeafe;
+    background: #ffe3e8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8856,7 +8856,7 @@ footer p {
     width: 100%;
     height: 44px;
     padding: 0 13px;
-    border: 1px solid #dbe3ef;
+    border: 1px solid #e8e8ee;
     border-radius: 8px;
     background: #ffffff;
     color: #334155;
@@ -8871,8 +8871,8 @@ footer p {
 
 .admin-form-group input:focus,
 .admin-form-group select:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+    border-color: #f84464;
+    box-shadow: 0 0 0 3px rgba(248, 68, 100, 0.08);
 }
 
 .admin-form-group select:disabled {
@@ -8936,7 +8936,7 @@ footer p {
     gap: 12px;
     padding-top: 10px;
     margin-top: 10px;
-    border-top: 1px solid #eef2f7;
+    border-top: 1px solid #f5f5f7;
 }
 
 .admin-submit-button {
@@ -8944,7 +8944,7 @@ footer p {
     padding: 0 20px;
     border: none;
     border-radius: 8px;
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
     font-size: 13px;
     font-weight: 600;
@@ -8953,7 +8953,7 @@ footer p {
 }
 
 .admin-submit-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
     transform: translateY(-1px);
 }
 
@@ -8965,10 +8965,10 @@ footer p {
 .admin-info-card {
     background: linear-gradient(
         145deg,
-        #eff6ff,
+        #fff1f3,
         #ffffff
     );
-    border: 1px solid #dbeafe;
+    border: 1px solid #ffe3e8;
     border-radius: 16px;
     padding: 26px;
 }
@@ -8979,7 +8979,7 @@ footer p {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #dbeafe;
+    background: #ffe3e8;
     border-radius: 12px;
     font-size: 22px;
     margin-bottom: 18px;
@@ -8987,7 +8987,7 @@ footer p {
 
 .admin-info-card h2 {
     margin: 0 0 10px;
-    color: #123f7a;
+    color: #1a1a2e;
     font-size: 20px;
 }
 
@@ -9127,12 +9127,12 @@ footer p {
     gap: 20px;
     margin-bottom: 25px;
     padding-bottom: 18px;
-    border-bottom: 1px solid #eef2f7;
+    border-bottom: 1px solid #f5f5f7;
 }
 
 .admin-modal-header h2 {
     margin: 5px 0 0;
-    color: #123f7a;
+    color: #1a1a2e;
     font-size: 22px;
 }
 
@@ -9198,14 +9198,14 @@ footer p {
 }
 
 .admin-price-cell {
-    color: #123f7a;
+    color: #1a1a2e;
     font-size: 14px;
 }
 
 .admin-form-group textarea {
     width: 100%;
     padding: 12px 13px;
-    border: 1px solid #dbe3ef;
+    border: 1px solid #e8e8ee;
     border-radius: 8px;
     background: #ffffff;
     color: #334155;
@@ -9221,8 +9221,8 @@ footer p {
 }
 
 .admin-form-group textarea:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+    border-color: #f84464;
+    box-shadow: 0 0 0 3px rgba(248, 68, 100, 0.08);
 }
 
 .admin-price-input {
@@ -9254,9 +9254,9 @@ footer p {
     gap: 15px;
     margin: -5px 0 20px;
     padding: 13px 15px;
-    border: 1px solid #bfdbfe;
+    border: 1px solid #ffc9d3;
     border-radius: 9px;
-    background: #eff6ff;
+    background: #fff1f3;
 }
 
 .admin-capacity-preview span {
@@ -9265,7 +9265,7 @@ footer p {
 }
 
 .admin-capacity-preview strong {
-    color: #2563eb;
+    color: #f84464;
     font-size: 14px;
 }
 
@@ -9293,8 +9293,8 @@ footer p {
 }
 
 .admin-role-badge.regular {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 /* =========================================================
@@ -9325,11 +9325,11 @@ footer p {
 }
 
 .admin-seat-status.booked {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .admin-seat-status.booked .seat-status-dot {
-    background: #3b82f6;
+    background: #f84464;
 }
 
 .admin-seat-status.blocked {
@@ -9359,7 +9359,7 @@ footer p {
     width: 42px;
     height: 42px;
     border-radius: 10px;
-    background: #eff6ff;
+    background: #fff1f3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9399,8 +9399,8 @@ footer p {
 }
 
 .admin-event-type-badge.football {
-    background: #eff6ff;
-    color: #1d4ed8;
+    background: #fff1f3;
+    color: #dc3558;
 }
 
 .admin-event-type-badge.music,
@@ -9438,8 +9438,8 @@ footer p {
 }
 
 .admin-status-badge.completed {
-    background: #eff6ff;
-    color: #1d4ed8;
+    background: #fff1f3;
+    color: #dc3558;
 }
 
 .admin-status-badge.cancelled {
@@ -9528,7 +9528,7 @@ footer p {
     width: 42px;
     height: 42px;
     border-radius: 10px;
-    background: #eff6ff;
+    background: #fff1f3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9581,8 +9581,8 @@ footer p {
 }
 
 .admin-event-seat-type.premium {
-    background: #eff6ff;
-    color: #1d4ed8;
+    background: #fff1f3;
+    color: #dc3558;
 }
 
 .admin-event-seat-type.vip {
@@ -9714,12 +9714,12 @@ footer p {
 }
 
 .staff-navbar-brand a span {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .staff-navbar-brand small {
     padding-left: 12px;
-    border-left: 1px solid #dbe1e8;
+    border-left: 1px solid #e8e8ee;
     color: #64748b;
     font-size: 11px;
     font-weight: 600;
@@ -9762,7 +9762,7 @@ footer p {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -9850,12 +9850,12 @@ footer p {
 
 .staff-sidebar-link:hover {
     background: #f8fafc;
-    color: #2563eb;
+    color: #f84464;
 }
 
 .staff-sidebar-link.active {
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
 }
 
 .staff-sidebar-icon {
@@ -9884,8 +9884,8 @@ footer p {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: #dbeafe;
-    color: #2563eb;
+    background: #ffe3e8;
+    color: #f84464;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9951,7 +9951,7 @@ footer p {
 }
 
 .staff-footer-brand h3 span {
-    color: #2563eb;
+    color: #f84464;
 }
 
 .staff-footer-brand p {
@@ -10078,7 +10078,7 @@ footer p {
     height: 42px;
     padding: 0 17px;
     border-radius: 8px;
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
     text-decoration: none;
     font-size: 12px;
@@ -10087,7 +10087,7 @@ footer p {
 }
 
 .staff-dashboard-primary-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 .staff-dashboard-stats {
@@ -10111,7 +10111,7 @@ footer p {
     width: 44px;
     height: 44px;
     border-radius: 10px;
-    background: #eff6ff;
+    background: #fff1f3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10163,7 +10163,7 @@ footer p {
 }
 
 .staff-view-all {
-    color: #2563eb;
+    color: #f84464;
     text-decoration: none;
     font-size: 11px;
     font-weight: 700;
@@ -10193,8 +10193,8 @@ footer p {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #dbeafe;
-    color: #1d4ed8;
+    background: #ffe3e8;
+    color: #dc3558;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10282,7 +10282,7 @@ footer p {
     height: 38px;
     flex-shrink: 0;
     border-radius: 9px;
-    background: #eff6ff;
+    background: #fff1f3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10349,14 +10349,14 @@ footer p {
 
 .staff-quick-action:hover {
     border-color: #93c5fd;
-    background: #f8fbff;
+    background: #fafafc;
 }
 
 .staff-quick-action-icon {
     width: 40px;
     height: 40px;
     border-radius: 9px;
-    background: #eff6ff;
+    background: #fff1f3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10381,7 +10381,7 @@ footer p {
 }
 
 .staff-quick-action-arrow {
-    color: #2563eb;
+    color: #f84464;
     font-size: 17px;
     font-weight: 700;
 }
@@ -10518,7 +10518,7 @@ footer p {
     width: 46px;
     height: 46px;
     border-radius: 11px;
-    background: #eff6ff;
+    background: #fff1f3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10569,7 +10569,7 @@ footer p {
     height: 45px;
     box-sizing: border-box;
     padding: 0 13px;
-    border: 1px solid #dbe1e8;
+    border: 1px solid #e8e8ee;
     border-radius: 8px;
     outline: none;
     color: #111827;
@@ -10578,7 +10578,7 @@ footer p {
 }
 
 .staff-ticket-input-group input:focus {
-    border-color: #2563eb;
+    border-color: #f84464;
 }
 
 .staff-validate-button {
@@ -10586,7 +10586,7 @@ footer p {
     padding: 0 17px;
     border: none;
     border-radius: 8px;
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
     font-size: 11px;
     font-weight: 700;
@@ -10595,7 +10595,7 @@ footer p {
 }
 
 .staff-validate-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 .staff-validation-result {
@@ -10658,7 +10658,7 @@ footer p {
 }
 
 .staff-validation-hint span {
-    color: #2563eb;
+    color: #f84464;
     font-weight: 700;
 }
 
@@ -10677,15 +10677,15 @@ footer p {
 .staff-ticket-details {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    border: 1px solid #eef2f7;
+    border: 1px solid #f5f5f7;
     border-radius: 10px;
     overflow: hidden;
 }
 
 .staff-ticket-detail {
     padding: 13px 15px;
-    border-right: 1px solid #eef2f7;
-    border-bottom: 1px solid #eef2f7;
+    border-right: 1px solid #f5f5f7;
+    border-bottom: 1px solid #f5f5f7;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -10719,8 +10719,8 @@ footer p {
 .staff-ticket-seats span {
     padding: 4px 7px;
     border-radius: 5px;
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
     font-size: 10px;
     font-weight: 700;
 }
@@ -10788,7 +10788,7 @@ footer p {
     width: 40px;
     height: 40px;
     border-radius: 9px;
-    background: #eff6ff;
+    background: #fff1f3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10825,8 +10825,8 @@ footer p {
     width: 23px;
     height: 23px;
     border-radius: 50%;
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10886,7 +10886,7 @@ footer p {
 
 .staff-clear-button {
     height: 40px;
-    border: 1px solid #dbe1e8;
+    border: 1px solid #e8e8ee;
     border-radius: 8px;
     background: #ffffff;
     color: #64748b;
@@ -10939,7 +10939,7 @@ footer p {
     .staff-ticket-detail:nth-child(even),
     .staff-ticket-detail:nth-last-child(-n + 2) {
         border-right: none;
-        border-bottom: 1px solid #eef2f7;
+        border-bottom: 1px solid #f5f5f7;
     }
 
     .staff-ticket-detail:last-child {
@@ -11005,8 +11005,8 @@ footer p {
     width: 42px;
     height: 42px;
     border-radius: 9px;
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11067,7 +11067,7 @@ footer p {
 .staff-booking-filter {
     height: 38px;
     box-sizing: border-box;
-    border: 1px solid #dbe1e8;
+    border: 1px solid #e8e8ee;
     border-radius: 7px;
     outline: none;
     color: #334155;
@@ -11087,7 +11087,7 @@ footer p {
 
 .staff-booking-search:focus,
 .staff-booking-filter:focus {
-    border-color: #2563eb;
+    border-color: #f84464;
 }
 
 .staff-bookings-table-wrapper {
@@ -11125,7 +11125,7 @@ footer p {
 }
 
 .staff-booking-id strong {
-    color: #2563eb;
+    color: #f84464;
     font-size: 10px;
 }
 
@@ -11144,8 +11144,8 @@ footer p {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: #dbeafe;
-    color: #1d4ed8;
+    background: #ffe3e8;
+    color: #dc3558;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11229,17 +11229,17 @@ footer p {
 .staff-view-booking-button {
     height: 29px;
     padding: 0 10px;
-    border: 1px solid #dbeafe;
+    border: 1px solid #ffe3e8;
     border-radius: 6px;
-    background: #eff6ff;
-    color: #2563eb;
+    background: #fff1f3;
+    color: #f84464;
     font-size: 9px;
     font-weight: 700;
     cursor: pointer;
 }
 
 .staff-view-booking-button:hover {
-    background: #dbeafe;
+    background: #ffe3e8;
 }
 
 .staff-empty-bookings {
@@ -11280,8 +11280,8 @@ footer p {
 }
 
 .staff-bookings-pagination button.active {
-    border-color: #2563eb;
-    background: #2563eb;
+    border-color: #f84464;
+    background: #f84464;
     color: #ffffff;
 }
 
@@ -11345,7 +11345,7 @@ footer p {
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin: 15px 24px 0;
-    border: 1px solid #eef2f7;
+    border: 1px solid #f5f5f7;
     border-radius: 9px;
     overflow: hidden;
 }
@@ -11355,8 +11355,8 @@ footer p {
     flex-direction: column;
     gap: 5px;
     padding: 13px;
-    border-right: 1px solid #eef2f7;
-    border-bottom: 1px solid #eef2f7;
+    border-right: 1px solid #f5f5f7;
+    border-bottom: 1px solid #f5f5f7;
 }
 
 .staff-booking-detail-grid > div:nth-child(even) {
@@ -11381,7 +11381,7 @@ footer p {
 }
 
 .staff-booking-detail-grid .staff-modal-amount {
-    color: #2563eb;
+    color: #f84464;
     font-size: 15px;
 }
 
@@ -11396,7 +11396,7 @@ footer p {
 .staff-modal-close-button {
     height: 36px;
     padding: 0 15px;
-    border: 1px solid #dbe1e8;
+    border: 1px solid #e8e8ee;
     border-radius: 7px;
     background: #ffffff;
     color: #475569;
@@ -11472,7 +11472,7 @@ footer p {
     .staff-booking-detail-grid > div:nth-child(even),
     .staff-booking-detail-grid > div:nth-last-child(-n + 2) {
         border-right: none;
-        border-bottom: 1px solid #eef2f7;
+        border-bottom: 1px solid #f5f5f7;
     }
 
     .staff-booking-detail-grid > div:last-child {
@@ -11514,8 +11514,8 @@ footer p {
     width: 64px;
     height: 64px;
     border-radius: 16px;
-    background: #eaf3ff;
-    color: #1769e0;
+    background: #f5f5f7;
+    color: #f84464;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11595,8 +11595,8 @@ footer p {
 }
 
 .staff-event-stat-icon.blue {
-    background: #eaf3ff;
-    color: #1769e0;
+    background: #f5f5f7;
+    color: #f84464;
 }
 
 .staff-event-stat-icon.green {
@@ -11649,7 +11649,7 @@ footer p {
     grid-template-columns: minmax(280px, 1fr) 170px 200px;
     gap: 14px;
     padding: 18px;
-    border-bottom: 1px solid #edf1f6;
+    border-bottom: 1px solid #f2f2f5;
 }
 
 .staff-events-search {
@@ -11721,7 +11721,7 @@ footer p {
 
 .staff-events-table td {
     padding: 14px;
-    border-top: 1px solid #edf1f6;
+    border-top: 1px solid #f2f2f5;
     vertical-align: middle;
     color: #243b5a;
     font-size: 14px;
@@ -11913,7 +11913,7 @@ footer p {
     padding: 0 15px;
     border: 1px solid #2671ed;
     background: white;
-    color: #1769e0;
+    color: #f84464;
     border-radius: 7px;
     cursor: pointer;
     font-weight: 600;
@@ -11923,7 +11923,7 @@ footer p {
 }
 
 .staff-event-view-button:hover {
-    background: #1769e0;
+    background: #f84464;
     color: white;
 }
 
@@ -11988,12 +11988,12 @@ footer p {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    border-bottom: 1px solid #edf1f6;
+    border-bottom: 1px solid #f2f2f5;
 }
 
 .staff-event-modal-header p {
     margin: 0 0 6px;
-    color: #1769e0;
+    color: #f84464;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -12047,14 +12047,14 @@ footer p {
 
 .staff-event-modal-footer {
     padding: 16px 24px;
-    border-top: 1px solid #edf1f6;
+    border-top: 1px solid #f2f2f5;
     display: flex;
     justify-content: flex-end;
 }
 
 .staff-event-modal-footer button {
     border: none;
-    background: #1769e0;
+    background: #f84464;
     color: white;
     padding: 10px 22px;
     border-radius: 7px;
@@ -12125,7 +12125,7 @@ footer p {
 .customer-layout {
     width: 100%;
     min-height: 100vh;
-    background: #eef7ff;
+    background: #f5f5f7;
 }
 
 .customer-layout-body {
@@ -12143,7 +12143,7 @@ footer p {
     margin-left: 225px !important;
     min-width: 0 !important;
     min-height: calc(100vh - 72px) !important;
-    background: #eef7ff !important;
+    background: #f5f5f7 !important;
     box-sizing: border-box;
     position: relative !important;
     z-index: 1 !important;
@@ -12403,7 +12403,7 @@ TABLET / SMALL LAPTOP - 900px
     display: block;
 
     border-right: none;
-    border-bottom: 1px solid #dbeafe;
+    border-bottom: 1px solid #ffe3e8;
 
     overflow: hidden;
 }
@@ -13630,7 +13630,7 @@ body {
 .staff-booking-detail-grid > div:nth-child(even),
 .staff-booking-detail-grid > div:nth-last-child(-n + 2) {
     border-right: none;
-    border-bottom: 1px solid #eef2f7;
+    border-bottom: 1px solid #f5f5f7;
 }
 
 .staff-booking-detail-grid > div:last-child {
@@ -14034,7 +14034,7 @@ FINAL OVERFLOW PROTECTION
 .customer-events-page {
     width: 100%;
     min-width: 0;
-    background: #f5f9ff;
+    background: #fafafc;
     box-sizing: border-box;
 }
 
@@ -14218,7 +14218,7 @@ FINAL OVERFLOW PROTECTION
 .customer-events-page {
     width: 100%;
     min-width: 0;
-    background: #f5f9ff;
+    background: #fafafc;
     color: #334155;
     overflow-x: hidden;
 }
@@ -14227,12 +14227,12 @@ FINAL OVERFLOW PROTECTION
     width: 100%;
     box-sizing: border-box;
     padding: 58px 6%;
-    background: linear-gradient(135deg, #eaf5ff, #dbeafe);
+    background: linear-gradient(135deg, #f5f5f7, #ffe3e8);
 }
 
 .customer-events-tag {
     margin: 0 0 12px;
-    color: #2563eb;
+    color: #f84464;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -14241,7 +14241,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-events-header h1 {
     margin: 0 0 18px;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 42px;
     line-height: 1.12;
 }
@@ -14271,7 +14271,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-events-heading h2 {
     margin: 0;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 30px;
 }
 
@@ -14292,13 +14292,13 @@ FINAL OVERFLOW PROTECTION
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.08);
+    box-shadow: 0 8px 25px rgba(248, 68, 100, 0.08);
     transition: transform .2s ease, box-shadow .2s ease;
 }
 
 .customer-event-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.15);
+    box-shadow: 0 15px 35px rgba(248, 68, 100, 0.15);
 }
 
 .customer-event-image {
@@ -14308,14 +14308,14 @@ FINAL OVERFLOW PROTECTION
     padding: 20px;
     box-sizing: border-box;
     background:
-        linear-gradient(135deg, #2563eb, #0ea5e9);
+        linear-gradient(135deg, #f84464, #ff8a5c);
 }
 
 .customer-event-image span {
     padding: 7px 11px;
     border-radius: 5px;
     background: #fff;
-    color: #2563eb;
+    color: #f84464;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -14343,7 +14343,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-event-content h3 {
     margin: 0 0 10px;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 20px;
     line-height: 1.3;
 }
@@ -14398,7 +14398,7 @@ FINAL OVERFLOW PROTECTION
     box-sizing: border-box;
     padding: 12px 16px;
     border-radius: 7px;
-    background: #2563eb;
+    background: #f84464;
     color: #fff;
     text-decoration: none;
     font-size: 14px;
@@ -14407,7 +14407,7 @@ FINAL OVERFLOW PROTECTION
 }
 
 .customer-event-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 .customer-event-button span {
@@ -14426,7 +14426,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-events-state h3 {
     margin: 15px 0 7px;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 22px;
 }
 
@@ -14444,8 +14444,8 @@ FINAL OVERFLOW PROTECTION
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #dbeafe;
-    color: #2563eb;
+    background: #ffe3e8;
+    color: #f84464;
     font-size: 22px;
     font-weight: 700;
 }
@@ -14454,8 +14454,8 @@ FINAL OVERFLOW PROTECTION
 .customer-details-spinner {
     width: 42px;
     height: 42px;
-    border: 4px solid #dbeafe;
-    border-top-color: #2563eb;
+    border: 4px solid #ffe3e8;
+    border-top-color: #f84464;
     border-radius: 50%;
     animation: customerEventSpin .8s linear infinite;
 }
@@ -14472,7 +14472,7 @@ FINAL OVERFLOW PROTECTION
     padding: 11px 20px;
     border: 0;
     border-radius: 7px;
-    background: #2563eb;
+    background: #f84464;
     color: #fff;
     cursor: pointer;
     font-weight: 600;
@@ -14485,7 +14485,7 @@ FINAL OVERFLOW PROTECTION
 .customer-event-details-page {
     width: 100%;
     min-width: 0;
-    background: #f5f9ff;
+    background: #fafafc;
     color: #334155;
     overflow-x: hidden;
 }
@@ -14519,7 +14519,7 @@ FINAL OVERFLOW PROTECTION
 }
 
 .customer-event-details-breadcrumb a {
-    color: #dbeafe;
+    color: #ffe3e8;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
@@ -14530,7 +14530,7 @@ FINAL OVERFLOW PROTECTION
     margin-bottom: 18px;
     padding: 8px 14px;
     border-radius: 6px;
-    background: #2563eb;
+    background: #f84464;
     color: #fff;
     font-size: 11px;
     font-weight: 700;
@@ -14568,13 +14568,13 @@ FINAL OVERFLOW PROTECTION
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(37, 99, 235, .06);
+    box-shadow: 0 8px 25px rgba(248, 68, 100, .06);
 }
 
 .customer-event-details-tag,
 .customer-event-booking-card > p {
     margin: 0 0 12px;
-    color: #2563eb;
+    color: #f84464;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -14582,7 +14582,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-event-details-card h2 {
     margin: 0 0 18px;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 30px;
 }
 
@@ -14612,7 +14612,7 @@ FINAL OVERFLOW PROTECTION
     min-width: 0;
     padding: 16px;
     border-radius: 10px;
-    background: #f8fbff;
+    background: #fafafc;
 }
 
 .customer-detail-icon {
@@ -14623,7 +14623,7 @@ FINAL OVERFLOW PROTECTION
     align-items: center;
     justify-content: center;
     border-radius: 9px;
-    background: #dbeafe;
+    background: #ffe3e8;
     font-size: 19px;
 }
 
@@ -14656,7 +14656,7 @@ FINAL OVERFLOW PROTECTION
     margin-top: 25px;
     padding: 15px 17px;
     border-radius: 9px;
-    background: #f8fbff;
+    background: #fafafc;
 }
 
 .customer-event-status-row span {
@@ -14677,13 +14677,13 @@ FINAL OVERFLOW PROTECTION
     box-sizing: border-box;
     padding: 35px;
     border-radius: 15px;
-    background: linear-gradient(145deg, #17478f, #2563eb);
+    background: linear-gradient(145deg, #17478f, #f84464);
     color: #fff;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, .18);
+    box-shadow: 0 12px 30px rgba(248, 68, 100, .18);
 }
 
 .customer-event-booking-card > p {
-    color: #dbeafe;
+    color: #ffe3e8;
 }
 
 .customer-event-booking-card h2 {
@@ -14695,7 +14695,7 @@ FINAL OVERFLOW PROTECTION
 .customer-event-booking-card > span {
     display: block;
     margin-bottom: 28px;
-    color: #dbeafe;
+    color: #ffe3e8;
     line-height: 1.6;
     font-size: 14px;
 }
@@ -14707,20 +14707,20 @@ FINAL OVERFLOW PROTECTION
     padding: 14px 18px;
     border-radius: 8px;
     background: #fff;
-    color: #2563eb;
+    color: #f84464;
     text-align: center;
     text-decoration: none;
     font-weight: 700;
 }
 
 .customer-event-select-seats:hover {
-    background: #eff6ff;
+    background: #fff1f3;
 }
 
 .customer-event-back-events {
     display: block;
     margin-top: 16px;
-    color: #dbeafe;
+    color: #ffe3e8;
     text-align: center;
     text-decoration: none;
     font-size: 13px;
@@ -14740,7 +14740,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-event-details-state h2 {
     margin: 20px 0 8px;
-    color: #123b78;
+    color: #1a1a2e;
 }
 
 .customer-event-details-state p {
@@ -14930,7 +14930,7 @@ FINAL OVERFLOW PROTECTION
 .customer-events-page {
     width: 100%;
     min-width: 0;
-    background: #f5f9ff;
+    background: #fafafc;
     color: #334155;
     overflow-x: hidden;
 }
@@ -14939,12 +14939,12 @@ FINAL OVERFLOW PROTECTION
     width: 100%;
     box-sizing: border-box;
     padding: 58px 6%;
-    background: linear-gradient(135deg, #eaf5ff, #dbeafe);
+    background: linear-gradient(135deg, #f5f5f7, #ffe3e8);
 }
 
 .customer-events-tag {
     margin: 0 0 12px;
-    color: #2563eb;
+    color: #f84464;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -14953,7 +14953,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-events-header h1 {
     margin: 0 0 18px;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 42px;
     line-height: 1.12;
 }
@@ -14983,7 +14983,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-events-heading h2 {
     margin: 0;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 30px;
 }
 
@@ -15004,13 +15004,13 @@ FINAL OVERFLOW PROTECTION
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.08);
+    box-shadow: 0 8px 25px rgba(248, 68, 100, 0.08);
     transition: transform .2s ease, box-shadow .2s ease;
 }
 
 .customer-event-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.15);
+    box-shadow: 0 15px 35px rgba(248, 68, 100, 0.15);
 }
 
 .customer-event-image {
@@ -15020,14 +15020,14 @@ FINAL OVERFLOW PROTECTION
     padding: 20px;
     box-sizing: border-box;
     background:
-        linear-gradient(135deg, #2563eb, #0ea5e9);
+        linear-gradient(135deg, #f84464, #ff8a5c);
 }
 
 .customer-event-image span {
     padding: 7px 11px;
     border-radius: 5px;
     background: #fff;
-    color: #2563eb;
+    color: #f84464;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -15055,7 +15055,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-event-content h3 {
     margin: 0 0 10px;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 20px;
     line-height: 1.3;
 }
@@ -15110,7 +15110,7 @@ FINAL OVERFLOW PROTECTION
     box-sizing: border-box;
     padding: 12px 16px;
     border-radius: 7px;
-    background: #2563eb;
+    background: #f84464;
     color: #fff;
     text-decoration: none;
     font-size: 14px;
@@ -15119,7 +15119,7 @@ FINAL OVERFLOW PROTECTION
 }
 
 .customer-event-button:hover {
-    background: #1d4ed8;
+    background: #dc3558;
 }
 
 .customer-event-button span {
@@ -15138,7 +15138,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-events-state h3 {
     margin: 15px 0 7px;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 22px;
 }
 
@@ -15156,8 +15156,8 @@ FINAL OVERFLOW PROTECTION
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #dbeafe;
-    color: #2563eb;
+    background: #ffe3e8;
+    color: #f84464;
     font-size: 22px;
     font-weight: 700;
 }
@@ -15166,8 +15166,8 @@ FINAL OVERFLOW PROTECTION
 .customer-details-spinner {
     width: 42px;
     height: 42px;
-    border: 4px solid #dbeafe;
-    border-top-color: #2563eb;
+    border: 4px solid #ffe3e8;
+    border-top-color: #f84464;
     border-radius: 50%;
     animation: customerEventSpin .8s linear infinite;
 }
@@ -15183,8 +15183,8 @@ FINAL OVERFLOW PROTECTION
     overflow: hidden;
     background: linear-gradient(
         135deg,
-        #2563eb,
-        #0ea5e9
+        #f84464,
+        #ff8a5c
     );
 }
 
@@ -15226,8 +15226,8 @@ FINAL OVERFLOW PROTECTION
 
     background: linear-gradient(
         135deg,
-        #2563eb,
-        #0ea5e9
+        #f84464,
+        #ff8a5c
     );
 
     color: white;
@@ -15249,7 +15249,7 @@ FINAL OVERFLOW PROTECTION
     padding: 11px 20px;
     border: 0;
     border-radius: 7px;
-    background: #2563eb;
+    background: #f84464;
     color: #fff;
     cursor: pointer;
     font-weight: 600;
@@ -15262,7 +15262,7 @@ FINAL OVERFLOW PROTECTION
 .customer-event-details-page {
     width: 100%;
     min-width: 0;
-    background: #f5f9ff;
+    background: #fafafc;
     color: #334155;
     overflow-x: hidden;
 }
@@ -15296,7 +15296,7 @@ FINAL OVERFLOW PROTECTION
 }
 
 .customer-event-details-breadcrumb a {
-    color: #dbeafe;
+    color: #ffe3e8;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
@@ -15307,7 +15307,7 @@ FINAL OVERFLOW PROTECTION
     margin-bottom: 18px;
     padding: 8px 14px;
     border-radius: 6px;
-    background: #2563eb;
+    background: #f84464;
     color: #fff;
     font-size: 11px;
     font-weight: 700;
@@ -15345,13 +15345,13 @@ FINAL OVERFLOW PROTECTION
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(37, 99, 235, .06);
+    box-shadow: 0 8px 25px rgba(248, 68, 100, .06);
 }
 
 .customer-event-details-tag,
 .customer-event-booking-card > p {
     margin: 0 0 12px;
-    color: #2563eb;
+    color: #f84464;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -15359,7 +15359,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-event-details-card h2 {
     margin: 0 0 18px;
-    color: #123b78;
+    color: #1a1a2e;
     font-size: 30px;
 }
 
@@ -15389,7 +15389,7 @@ FINAL OVERFLOW PROTECTION
     min-width: 0;
     padding: 16px;
     border-radius: 10px;
-    background: #f8fbff;
+    background: #fafafc;
 }
 
 .customer-detail-icon {
@@ -15400,7 +15400,7 @@ FINAL OVERFLOW PROTECTION
     align-items: center;
     justify-content: center;
     border-radius: 9px;
-    background: #dbeafe;
+    background: #ffe3e8;
     font-size: 19px;
 }
 
@@ -15433,7 +15433,7 @@ FINAL OVERFLOW PROTECTION
     margin-top: 25px;
     padding: 15px 17px;
     border-radius: 9px;
-    background: #f8fbff;
+    background: #fafafc;
 }
 
 .customer-event-status-row span {
@@ -15454,13 +15454,13 @@ FINAL OVERFLOW PROTECTION
     box-sizing: border-box;
     padding: 35px;
     border-radius: 15px;
-    background: linear-gradient(145deg, #17478f, #2563eb);
+    background: linear-gradient(145deg, #17478f, #f84464);
     color: #fff;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, .18);
+    box-shadow: 0 12px 30px rgba(248, 68, 100, .18);
 }
 
 .customer-event-booking-card > p {
-    color: #dbeafe;
+    color: #ffe3e8;
 }
 
 .customer-event-booking-card h2 {
@@ -15472,7 +15472,7 @@ FINAL OVERFLOW PROTECTION
 .customer-event-booking-card > span {
     display: block;
     margin-bottom: 28px;
-    color: #dbeafe;
+    color: #ffe3e8;
     line-height: 1.6;
     font-size: 14px;
 }
@@ -15484,20 +15484,20 @@ FINAL OVERFLOW PROTECTION
     padding: 14px 18px;
     border-radius: 8px;
     background: #fff;
-    color: #2563eb;
+    color: #f84464;
     text-align: center;
     text-decoration: none;
     font-weight: 700;
 }
 
 .customer-event-select-seats:hover {
-    background: #eff6ff;
+    background: #fff1f3;
 }
 
 .customer-event-back-events {
     display: block;
     margin-top: 16px;
-    color: #dbeafe;
+    color: #ffe3e8;
     text-align: center;
     text-decoration: none;
     font-size: 13px;
@@ -15517,7 +15517,7 @@ FINAL OVERFLOW PROTECTION
 
 .customer-event-details-state h2 {
     margin: 20px 0 8px;
-    color: #123b78;
+    color: #1a1a2e;
 }
 
 .customer-event-details-state p {
@@ -15712,8 +15712,8 @@ FINAL OVERFLOW PROTECTION
     overflow: hidden;
     background: linear-gradient(
         135deg,
-        #2563eb,
-        #0ea5e9
+        #f84464,
+        #ff8a5c
     );
 }
 
@@ -15754,8 +15754,8 @@ FINAL OVERFLOW PROTECTION
 
     background: linear-gradient(
         135deg,
-        #2563eb,
-        #0ea5e9
+        #f84464,
+        #ff8a5c
     );
 }
 
@@ -15764,7 +15764,7 @@ FINAL OVERFLOW PROTECTION
 
 .event-card-image-placeholder span {
     background: #ffffff;
-    color: #2563eb;
+    color: #f84464;
 
     padding: 7px 12px;
 
@@ -15813,7 +15813,7 @@ FINAL OVERFLOW PROTECTION
 .support-chat-header {
     padding: 16px 18px;
 
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    background: linear-gradient(135deg, #ff8a5c, #f84464);
     color: #ffffff;
 
     display: flex;
@@ -15830,7 +15830,7 @@ FINAL OVERFLOW PROTECTION
 .support-chat-header span {
     display: block;
     margin-top: 3px;
-    color: #dbeafe;
+    color: #ffe3e8;
     font-size: 11px;
 }
 
@@ -15870,7 +15870,7 @@ FINAL OVERFLOW PROTECTION
 
 .support-chat-bubble.user {
     align-self: flex-end;
-    background: #2563eb;
+    background: #f84464;
     color: #ffffff;
     border-bottom-right-radius: 3px;
 }
@@ -15909,7 +15909,7 @@ FINAL OVERFLOW PROTECTION
     height: 40px;
     padding: 0 12px;
 
-    border: 1px solid #dbe4f0;
+    border: 1px solid #e8e8ee;
     border-radius: 8px;
 
     font-size: 13px;
@@ -15917,7 +15917,7 @@ FINAL OVERFLOW PROTECTION
 }
 
 .support-chat-input input:focus {
-    border-color: #2563eb;
+    border-color: #f84464;
 }
 
 .support-chat-input button {

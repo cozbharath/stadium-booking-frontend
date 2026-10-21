@@ -775,7 +775,7 @@ function Booking() {
                         <strong
                             style={{
                                 fontSize: "22px",
-                                color: "#2563eb"
+                                color: "#f84464"
                             }}
                         >
                             ₹

@@ -1,61 +1,65 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfileModal from "../common/ProfileModal";
 
-function CustomerNavbar() {
+function CustomerNavbar({ onToggleSidebar, sidebarOpen }) {
     const [profileOpen, setProfileOpen] = useState(false);
+    const [q, setQ] = useState("");
+    const navigate = useNavigate();
 
-    // api.js already stores a "user" object in localStorage on login and
-    // clears it on 401 - reuse it here instead of introducing a new source
-    // of truth just for the navbar's display name.
+    // api.js already stores a "user" object in localStorage on login
     const storedUser = JSON.parse(localStorage.getItem("user") || "null");
     const displayName = storedUser?.name || "Customer";
     const avatarLetter = displayName.charAt(0).toUpperCase();
 
+    const search = (e) => {
+        e.preventDefault();
+        navigate(`/customer/events${q.trim() ? `?q=${encodeURIComponent(q.trim())}` : ""}`);
+    };
+
     return (
-        <header className="customer-navbar">
+        <header className="bn-appbar customer-navbar">
 
-            <div className="customer-navbar-brand">
-                <Link to="/customer/dashboard">
-                    Your<span>Turn</span>
-                </Link>
+            <button
+                type="button"
+                className="bn-sb-toggle"
+                onClick={onToggleSidebar}
+                aria-label="Toggle sidebar"
+                aria-expanded={!!sidebarOpen}
+                title="Toggle sidebar"
+            >
+                ☰
+            </button>
 
-                <small>
-                    Stadium Tickets
-                </small>
-            </div>
+            <Link to="/customer/dashboard" className="bn-logo">
+                Your<span>Turn</span>
+            </Link>
 
-            <div className="customer-navbar-right">
+            <form className="bn-search" onSubmit={search} role="search">
+                <span aria-hidden="true">🔍</span>
+                <input
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                    placeholder="Search matches, concerts, stadiums…"
+                    aria-label="Search events"
+                />
+            </form>
 
-                <button
-                    type="button"
-                    className="customer-notification"
-                >
-                    🔔
-                    <span className="notification-dot"></span>
+            <div className="bn-appbar-right">
+
+                <button type="button" className="bn-iconbtn" aria-label="Notifications">
+                    🔔<span className="dot"></span>
                 </button>
 
-                <div
-                    className="customer-user"
-                    onClick={() => setProfileOpen(true)}
-                    style={{ cursor: "pointer" }}
-                >
-                    <div className="customer-user-avatar">
-                        {avatarLetter}
-                    </div>
-
-                    <div className="customer-user-info">
+                <button type="button" className="bn-user" onClick={() => setProfileOpen(true)}>
+                    <span className="bn-avatar">{avatarLetter}</span>
+                    <span className="txt">
                         <strong>{displayName}</strong>
-                        <span>Welcome back</span>
-                    </div>
-                </div>
+                        <small>My profile</small>
+                    </span>
+                </button>
 
-                <Link
-                    to="/login"
-                    className="customer-logout-button"
-                >
-                    Logout
-                </Link>
+                <Link to="/login" className="bn-logout">Logout</Link>
 
             </div>
 

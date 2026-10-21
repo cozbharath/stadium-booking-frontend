@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileModal from "../common/ProfileModal";
 
-function StaffNavbar() {
+function StaffNavbar({ onToggleSidebar, sidebarOpen }) {
     const [profileOpen, setProfileOpen] = useState(false);
 
     const storedUser = JSON.parse(localStorage.getItem("user") || "null");
@@ -11,6 +11,16 @@ function StaffNavbar() {
 
     return (
         <header className="staff-navbar">
+
+            <button
+                type="button"
+                className="bn-sb-toggle"
+                onClick={onToggleSidebar}
+                aria-label="Toggle sidebar"
+                aria-expanded={!!sidebarOpen}
+            >
+                ☰
+            </button>
 
             <div className="staff-navbar-brand">
                 <Link to="/staff/dashboard">

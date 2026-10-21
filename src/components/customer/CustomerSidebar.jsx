@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import SupportChat from "./SupportChat";
 
-function CustomerSidebar() {
+function CustomerSidebar({ onNavigate }) {
 
     const [chatOpen, setChatOpen] = useState(false);
 
@@ -19,6 +19,8 @@ function CustomerSidebar() {
 
                 <NavLink
                     to="/customer/dashboard"
+                    data-tip="Dashboard"
+                    onClick={onNavigate}
                     className={({ isActive }) =>
                         `sidebar-link ${isActive ? "active" : ""}`
                     }
@@ -26,11 +28,13 @@ function CustomerSidebar() {
                     <span className="sidebar-icon">
                         🏠
                     </span>
-                    Dashboard
+                    <span className="bn-label">Dashboard</span>
                 </NavLink>
 
                 <NavLink
                     to="/customer/events"
+                    data-tip="Explore Events"
+                    onClick={onNavigate}
                     className={({ isActive }) =>
                         `sidebar-link ${isActive ? "active" : ""}`
                     }
@@ -38,11 +42,13 @@ function CustomerSidebar() {
                     <span className="sidebar-icon">
                         🎟️
                     </span>
-                    Explore Events
+                    <span className="bn-label">Explore Events</span>
                 </NavLink>
 
                 <NavLink
                     to="/customer/bookings"
+                    data-tip="My Bookings"
+                    onClick={onNavigate}
                     className={({ isActive }) =>
                         `sidebar-link ${isActive ? "active" : ""}`
                     }
@@ -50,11 +56,13 @@ function CustomerSidebar() {
                     <span className="sidebar-icon">
                         📋
                     </span>
-                    My Bookings
+                    <span className="bn-label">My Bookings</span>
                 </NavLink>
 
                 <NavLink
                     to="/customer/tickets"
+                    data-tip="My Tickets"
+                    onClick={onNavigate}
                     className={({ isActive }) =>
                         `sidebar-link ${isActive ? "active" : ""}`
                     }
@@ -62,7 +70,7 @@ function CustomerSidebar() {
                     <span className="sidebar-icon">
                         🎫
                     </span>
-                    My Tickets
+                    <span className="bn-label">My Tickets</span>
                 </NavLink>
 
             </div>
@@ -98,13 +106,14 @@ function CustomerSidebar() {
 
                 <NavLink
                     to="/login"
+                    data-tip="Logout"
                     className="sidebar-logout"
                 >
                     <span className="sidebar-icon">
                         🚪
                     </span>
 
-                    Logout
+                    <span className="bn-label">Logout</span>
                 </NavLink>
 
             </div>
