@@ -35,6 +35,7 @@ function ManageUsers() {
     const [editForm, setEditForm] = useState({
         name: "",
         email: "",
+        mobile: "",
         role: "CUSTOMER",
     });
 
@@ -108,6 +109,8 @@ function ManageUsers() {
                 .includes(searchText) ||
             (user.email || "")
                 .toLowerCase()
+                .includes(searchText) ||
+            (user.mobile || "")
                 .includes(searchText);
 
         const matchesRole =
@@ -186,6 +189,7 @@ function ManageUsers() {
             `User Details\n\n` +
             `Name: ${user.name}\n` +
             `Email: ${user.email}\n` +
+            `Mobile: ${user.mobile || "Not added"}\n` +
             `Role: ${user.role}`
         );
     };
@@ -202,6 +206,7 @@ function ManageUsers() {
         setEditForm({
             name: user.name || "",
             email: user.email || "",
+            mobile: user.mobile || "",
             role: user.role || "CUSTOMER",
         });
 
@@ -226,6 +231,7 @@ function ManageUsers() {
         setEditForm({
             name: "",
             email: "",
+            mobile: "",
             role: "CUSTOMER",
         });
     };
@@ -271,6 +277,7 @@ function ManageUsers() {
                 {
                     name: editForm.name,
                     email: editForm.email,
+                    mobile: editForm.mobile,
                     role: editForm.role,
                 }
             );
@@ -590,6 +597,10 @@ function ManageUsers() {
                                 </th>
 
                                 <th>
+                                    Mobile
+                                </th>
+
+                                <th>
                                     Role
                                 </th>
 
@@ -620,7 +631,7 @@ function ManageUsers() {
                                 <tr>
 
                                     <td
-                                        colSpan="6"
+                                        colSpan="7"
                                         style={{
                                             textAlign: "center",
                                             padding: "40px",
@@ -642,7 +653,7 @@ function ManageUsers() {
                                     <tr>
 
                                         <td
-                                            colSpan="6"
+                                            colSpan="7"
                                             style={{
                                                 textAlign: "center",
                                                 padding: "40px",
@@ -695,6 +706,10 @@ function ManageUsers() {
 
                                         <td>
                                             {user.email}
+                                        </td>
+
+                                        <td>
+                                            {user.mobile || "—"}
                                         </td>
 
 
@@ -925,6 +940,27 @@ function ManageUsers() {
                                     name="email"
                                     value={editForm.email}
                                     onChange={handleEditChange}
+                                    required
+                                />
+
+                            </div>
+
+
+                            {/* MOBILE */}
+
+                            <div className="admin-form-group">
+
+                                <label>
+                                    Mobile Number
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    inputMode="numeric"
+                                    name="mobile"
+                                    value={editForm.mobile}
+                                    onChange={handleEditChange}
+                                    placeholder="10-digit mobile number"
                                     required
                                 />
 

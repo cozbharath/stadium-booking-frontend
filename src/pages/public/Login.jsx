@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { API_BASE_URL } from "../../services/api";
+import { authPost } from "../../services/api";
 
 function Login() {
 
     const navigate = useNavigate();
     const { login } = useAuth();
 
+    // CUSTOMER signs in with mobile + OTP, STAFF (and admin) with email + password
+    const [mode, setMode] = useState("CUSTOMER");
+
+    // customer (OTP)
+    const [mobile, setMobile] = useState("");
+    const [otp, setOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
+    const [resendIn, setResendIn] = useState(0);
+    const [info, setInfo] = useState("");
+
+    // admin / staff (password)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const [showPassword, setShowPassword] = useState(false);
+
     const [rememberMe, setRememberMe] = useState(false);
 
     const [error, setError] = useState("");
@@ -19,7 +30,106 @@ function Login() {
 
 
     // =========================================================
-    // LOGIN
+    // RESEND COUNTDOWN
+    // =========================================================
+
+    useEffect(() => {
+
+        if (resendIn <= 0) {
+            return undefined;
+        }
+
+        const timer = setTimeout(() => setResendIn(resendIn - 1), 1000);
+
+        return () => clearTimeout(timer);
+
+    }, [resendIn]);
+
+
+    const switchMode = (newMode) => {
+
+        setMode(newMode);
+        setError("");
+        setInfo("");
+        setOtp("");
+        setOtpSent(false);
+    };
+
+
+    // =========================================================
+    // FINISH LOGIN (shared by both ways of signing in)
+    // =========================================================
+
+    const finishLogin = (data) => {
+
+        const token = data.token;
+
+        if (!token || !data.role) {
+            throw new Error("The server did not return the login details.");
+        }
+
+        const user = {
+            id: data.userId ?? data.id,
+            name: data.name,
+            email: data.email,
+            mobile: data.mobile,
+            role: data.role,
+        };
+
+        login(user, token);
+
+        if (rememberMe) {
+            localStorage.setItem("rememberMe", "true");
+        } else {
+            localStorage.removeItem("rememberMe");
+        }
+
+        if (user.role === "ADMIN") {
+            navigate("/admin/dashboard");
+        } else if (user.role === "STAFF") {
+            navigate("/staff/dashboard");
+        } else if (user.role === "CUSTOMER") {
+            navigate("/customer/dashboard");
+        } else {
+            throw new Error(`Unknown user role: ${user.role}`);
+        }
+    };
+
+
+    // =========================================================
+    // CUSTOMER: SEND OTP
+    // =========================================================
+
+    const sendOtp = async () => {
+
+        setError("");
+        setInfo("");
+        setLoading(true);
+
+        try {
+
+            const data = await authPost("/auth/login/request-otp", {
+                mobile: mobile.trim(),
+            });
+
+            setOtpSent(true);
+            setOtp("");
+            setResendIn(data.resendAfterSeconds || 30);
+            setInfo(data.message);
+
+        } catch (err) {
+
+            setError(err.message || "Could not send the OTP.");
+
+        } finally {
+
+            setLoading(false);
+        }
+    };
+
+
+    // =========================================================
+    // SUBMIT
     // =========================================================
 
     const handleSubmit = async (e) => {
@@ -27,220 +137,32 @@ function Login() {
         e.preventDefault();
 
         setError("");
+
+        // customer, first step: ask for the OTP
+        if (mode === "CUSTOMER" && !otpSent) {
+            await sendOtp();
+            return;
+        }
+
         setLoading(true);
 
         try {
 
-            const response = await fetch(
-                `${API_BASE_URL}/auth/login`,
-                {
-                    method: "POST",
+            const data = mode === "CUSTOMER"
+                ? await authPost("/auth/login/verify-otp", {
+                    mobile: mobile.trim(),
+                    otp: otp.trim(),
+                })
+                : await authPost("/auth/login", {
+                    email: email.trim(),
+                    password: password,
+                });
 
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-
-                    body: JSON.stringify({
-                        email: email.trim(),
-                        password: password,
-                    }),
-                }
-            );
-
-
-            // =================================================
-            // READ RESPONSE
-            // =================================================
-
-            const data = await response.json();
-
-            console.log("=================================");
-            console.log("LOGIN RESPONSE");
-            console.log(data);
-            console.log("=================================");
-
-
-            // =================================================
-            // BACKEND ERROR
-            // =================================================
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.message ||
-                    data.error ||
-                    "Invalid email or password"
-                );
-            }
-
-
-            // =================================================
-            // GET JWT TOKEN
-            // =================================================
-
-            const token =
-                data.token ||
-                data.accessToken ||
-                data.jwt;
-
-
-            if (!token) {
-
-                console.error(
-                    "JWT token missing from response:",
-                    data
-                );
-
-                throw new Error(
-                    "JWT token was not returned by the server."
-                );
-            }
-
-
-            // =================================================
-            // GET USER
-            // =================================================
-
-            /*
-             * Expected backend response:
-             *
-             * {
-             *     token: "...",
-             *     user: {
-             *         id: 1,
-             *         name: "...",
-             *         email: "...",
-             *         role: "ADMIN"
-             *     }
-             * }
-             *
-             * But this code also supports:
-             *
-             * {
-             *     token: "...",
-             *     id: 1,
-             *     name: "...",
-             *     email: "...",
-             *     role: "ADMIN"
-             * }
-             */
-
-            let user = data.user;
-
-
-            // If backend sends user details directly
-            if (!user && data.role) {
-
-                user = {
-                    id: data.id,
-                    name: data.name,
-                    email: data.email || email,
-                    role: data.role,
-                };
-            }
-
-
-            // =================================================
-            // USER NOT FOUND
-            // =================================================
-
-            if (!user) {
-
-                console.error(
-                    "User details missing from login response:",
-                    data
-                );
-
-                throw new Error(
-                    "User details were not returned by the server."
-                );
-            }
-
-
-            // =================================================
-            // ROLE
-            // =================================================
-
-            const role = user.role;
-
-
-            if (!role) {
-
-                console.error(
-                    "User role missing from login response:",
-                    user
-                );
-
-                throw new Error(
-                    "User role was not returned by the server."
-                );
-            }
-
-
-            console.log("Logged-in user:", user);
-            console.log("User role:", role);
-
-
-            // =================================================
-            // STORE LOGIN INFORMATION
-            // =================================================
-
-            login(user, token);
-
-
-            // =================================================
-            // REMEMBER ME
-            // =================================================
-
-            if (rememberMe) {
-
-                localStorage.setItem(
-                    "rememberMe",
-                    "true"
-                );
-
-            } else {
-
-                localStorage.removeItem(
-                    "rememberMe"
-                );
-            }
-
-
-            // =================================================
-            // ROLE BASED REDIRECT
-            // =================================================
-
-            if (role === "ADMIN") {
-
-                navigate("/admin/dashboard");
-
-            } else if (role === "STAFF") {
-
-                navigate("/staff/dashboard");
-
-            } else if (role === "CUSTOMER") {
-
-                navigate("/customer/dashboard");
-
-            } else {
-
-                throw new Error(
-                    `Unknown user role: ${role}`
-                );
-            }
+            finishLogin(data);
 
         } catch (err) {
 
-            console.error(
-                "Login error:",
-                err
-            );
-
-            setError(
-                err.message ||
-                "Login failed. Please try again."
-            );
+            setError(err.message || "Login failed. Please try again.");
 
         } finally {
 
@@ -375,11 +297,6 @@ function Login() {
 
                 <div className="login-card">
 
-
-                    {/* =================================================
-                        HEADER
-                    ================================================= */}
-
                     <div className="login-card-header">
 
                         <h2>
@@ -393,107 +310,215 @@ function Login() {
                     </div>
 
 
+                    {/* CUSTOMER / STAFF SWITCH */}
 
-                    {/* =================================================
-                        LOGIN FORM
-                    ================================================= */}
+                    <div className="login-mode-tabs">
+
+                        <button
+                            type="button"
+                            className={mode === "CUSTOMER" ? "active" : ""}
+                            onClick={() => switchMode("CUSTOMER")}
+                        >
+                            Customer
+                        </button>
+
+                        <button
+                            type="button"
+                            className={mode === "STAFF" ? "active" : ""}
+                            onClick={() => switchMode("STAFF")}
+                        >
+                            Admin / Staff
+                        </button>
+
+                    </div>
+
 
                     <form onSubmit={handleSubmit}>
 
+                        {mode === "CUSTOMER" ? (
 
-                        {/* =================================================
-                            EMAIL
-                        ================================================= */}
+                            <>
 
-                        <div className="login-form-group">
+                                <div className="login-form-group">
 
-                            <label>
-                                Email or Username
-                            </label>
+                                    <label>
+                                        Mobile Number
+                                    </label>
 
+                                    <div className="input-wrapper">
 
-                            <div className="input-wrapper">
+                                        <span className="input-icon">
+                                            📱
+                                        </span>
 
-                                <span className="input-icon">
-                                    ✉
-                                </span>
+                                        <input
+                                            type="tel"
+                                            inputMode="numeric"
+                                            autoComplete="tel"
+                                            value={mobile}
+                                            onChange={(e) =>
+                                                setMobile(e.target.value)
+                                            }
+                                            placeholder="10-digit mobile number"
+                                            disabled={otpSent}
+                                            required
+                                        />
 
+                                    </div>
 
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) =>
-                                        setEmail(e.target.value)
-                                    }
-                                    placeholder="Enter your email or username"
-                                    required
-                                />
-
-                            </div>
-
-                        </div>
-
-
-
-                        {/* =================================================
-                            PASSWORD
-                        ================================================= */}
-
-                        <div className="login-form-group">
-
-                            <label>
-                                Password
-                            </label>
+                                </div>
 
 
-                            <div className="input-wrapper">
+                                {otpSent && (
 
-                                <span className="input-icon">
-                                    🔒
-                                </span>
+                                    <div className="login-form-group">
+
+                                        <label>
+                                            Enter OTP
+                                        </label>
+
+                                        <div className="input-wrapper">
+
+                                            <span className="input-icon">
+                                                🔑
+                                            </span>
+
+                                            <input
+                                                className="otp-input"
+                                                type="text"
+                                                inputMode="numeric"
+                                                autoComplete="one-time-code"
+                                                maxLength={6}
+                                                value={otp}
+                                                onChange={(e) =>
+                                                    setOtp(
+                                                        e.target.value.replace(/\D/g, "")
+                                                    )
+                                                }
+                                                placeholder="6-digit OTP"
+                                                autoFocus
+                                                required
+                                            />
+
+                                        </div>
+
+                                        <div className="otp-actions">
+
+                                            <button
+                                                type="button"
+                                                className="otp-link"
+                                                onClick={sendOtp}
+                                                disabled={loading || resendIn > 0}
+                                            >
+                                                {resendIn > 0
+                                                    ? `Resend OTP in ${resendIn}s`
+                                                    : "Resend OTP"}
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className="otp-link"
+                                                onClick={() => {
+                                                    setOtpSent(false);
+                                                    setOtp("");
+                                                    setInfo("");
+                                                    setError("");
+                                                }}
+                                            >
+                                                Change number
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                )}
+
+                            </>
+
+                        ) : (
+
+                            <>
+
+                                <div className="login-form-group">
+
+                                    <label>
+                                        Email
+                                    </label>
+
+                                    <div className="input-wrapper">
+
+                                        <span className="input-icon">
+                                            ✉
+                                        </span>
+
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            placeholder="Enter your email"
+                                            required
+                                        />
+
+                                    </div>
+
+                                </div>
 
 
-                                <input
-                                    type={
-                                        showPassword
-                                            ? "text"
-                                            : "password"
-                                    }
-                                    value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
-                                    placeholder="Enter your password"
-                                    required
-                                />
+                                <div className="login-form-group">
+
+                                    <label>
+                                        Password
+                                    </label>
+
+                                    <div className="input-wrapper">
+
+                                        <span className="input-icon">
+                                            🔒
+                                        </span>
+
+                                        <input
+                                            type={
+                                                showPassword
+                                                    ? "text"
+                                                    : "password"
+                                            }
+                                            value={password}
+                                            onChange={(e) =>
+                                                setPassword(e.target.value)
+                                            }
+                                            placeholder="Enter your password"
+                                            required
+                                        />
+
+                                        <button
+                                            type="button"
+                                            className="password-toggle"
+                                            onClick={() =>
+                                                setShowPassword(!showPassword)
+                                            }
+                                        >
+                                            {showPassword ? "◉" : "◌"}
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </>
+
+                        )}
 
 
-                                <button
-                                    type="button"
-                                    className="password-toggle"
-                                    onClick={() =>
-                                        setShowPassword(
-                                            !showPassword
-                                        )
-                                    }
-                                >
+                        {info && !error && (
 
-                                    {showPassword
-                                        ? "◉"
-                                        : "◌"
-                                    }
+                            <p className="login-info">
+                                {info}
+                            </p>
 
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-
-                        {/* =================================================
-                            ERROR
-                        ================================================= */}
+                        )}
 
                         {error && (
 
@@ -504,13 +529,7 @@ function Login() {
                         )}
 
 
-
-                        {/* =================================================
-                            OPTIONS
-                        ================================================= */}
-
                         <div className="login-options">
-
 
                             <label className="remember-me">
 
@@ -518,9 +537,7 @@ function Login() {
                                     type="checkbox"
                                     checked={rememberMe}
                                     onChange={(e) =>
-                                        setRememberMe(
-                                            e.target.checked
-                                        )
+                                        setRememberMe(e.target.checked)
                                     }
                                 />
 
@@ -530,22 +547,8 @@ function Login() {
 
                             </label>
 
-
-                            <button
-                                type="button"
-                                className="forgot-password"
-                            >
-                                Forgot password?
-                            </button>
-
-
                         </div>
 
-
-
-                        {/* =================================================
-                            LOGIN BUTTON
-                        ================================================= */}
 
                         <button
                             type="submit"
@@ -554,88 +557,26 @@ function Login() {
                         >
 
                             {loading
-                                ? "Signing in..."
-                                : "Login"
+                                ? "Please wait..."
+                                : mode === "CUSTOMER" && !otpSent
+                                    ? "Send OTP"
+                                    : "Login"
                             }
 
                         </button>
 
-
                     </form>
 
 
-
-                    {/* =================================================
-                        DIVIDER
-                    ================================================= */}
-
-                    <div className="login-divider">
-
-                        <span></span>
-
-                        <p>
-                            OR
-                        </p>
-
-                        <span></span>
-
-                    </div>
-
-
-
-                    {/* =================================================
-                        SOCIAL LOGIN
-                    ================================================= */}
-
-                    <div className="social-login">
-
-
-                        <button
-                            type="button"
-                            className="social-button"
-                        >
-
-                            <span className="google-icon">
-                                G
-                            </span>
-
-                            Continue with Google
-
-                        </button>
-
-
-                        <button
-                            type="button"
-                            className="social-button"
-                        >
-
-                            <span className="apple-icon">
-                                ●
-                            </span>
-
-                            Continue with Apple
-
-                        </button>
-
-
-                    </div>
-
-
-
-                    {/* =================================================
-                        REGISTER
-                    ================================================= */}
-
                     <p className="register-message">
 
-                        Don't have an account?{" "}
+                        New customer?{" "}
 
                         <Link to="/register">
                             Register
                         </Link>
 
                     </p>
-
 
                 </div>
 

@@ -1641,3 +1641,90 @@ body:has(.ss-modal-back){overflow:hidden}
   .admin-sidebar-logout,
   .staff-sidebar-logout{display:none!important}
 }
+
+
+
+/* =========================================================
+   OTP LOGIN / REGISTER
+========================================================= */
+
+.login-mode-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 4px;
+    margin-bottom: 20px;
+    background: #f2f2f6;
+    border-radius: 8px;
+}
+
+.login-mode-tabs button {
+    flex: 1;
+    height: 38px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #666a7a;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-mode-tabs button.active {
+    background: white;
+    color: #f84464;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.otp-input {
+    letter-spacing: 8px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.otp-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.otp-link {
+    padding: 0;
+    border: none;
+    background: none;
+    color: #f84464;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.otp-link:disabled {
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.login-error,
+.register-error {
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: #fff1f3;
+    color: #c4203f;
+    font-size: 13px;
+}
+
+.login-info,
+.register-success {
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: #edf8f0;
+    color: #1e7a3c;
+    font-size: 13px;
+}
+
+.register-form-group input.otp-input {
+    letter-spacing: 8px;
+    font-size: 18px;
+    font-weight: 600;
+}

@@ -1,67 +1,136 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { post } from "../../services/api";
+import { useAuth } from "../../hooks/useAuth";
+import { authPost } from "../../services/api";
 
 function Register() {
 
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [otp, setOtp] = useState("");
+
+    // step 1 = details, step 2 = enter the OTP that was texted
+    const [step, setStep] = useState(1);
+    const [resendIn, setResendIn] = useState(0);
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
 
+
     // =========================================================
-    // REGISTER
+    // RESEND COUNTDOWN
     // =========================================================
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    useEffect(() => {
+
+        if (resendIn <= 0) {
+            return undefined;
+        }
+
+        const timer = setTimeout(() => setResendIn(resendIn - 1), 1000);
+
+        return () => clearTimeout(timer);
+
+    }, [resendIn]);
+
+
+    // =========================================================
+    // STEP 1: SEND OTP
+    // =========================================================
+
+    const sendOtp = async () => {
 
         setError("");
         setSuccess("");
 
-        if (!name.trim() || !email.trim() || !password) {
+        if (!name.trim() || !email.trim() || !mobile.trim()) {
             setError("Please fill in all fields.");
-            return;
-        }
-
-        if (password.length < 6) {
-            setError("Password must be at least 6 characters long.");
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            setError("Passwords do not match.");
             return;
         }
 
         setLoading(true);
 
         try {
-            await post("/auth/register", {
+
+            const data = await authPost("/auth/register/request-otp", {
                 name: name.trim(),
                 email: email.trim(),
-                password: password,
+                mobile: mobile.trim(),
             });
 
-            setSuccess("Account created successfully! Redirecting to login...");
-
-            setTimeout(() => {
-                navigate("/login");
-            }, 1500);
+            setStep(2);
+            setOtp("");
+            setResendIn(data.resendAfterSeconds || 30);
+            setSuccess(`OTP sent to ${data.maskedMobile}.`);
 
         } catch (err) {
-            console.error("Registration error:", err);
-            setError(err.message || "Registration failed. Please try again.");
+
+            setError(err.message || "Could not send the OTP. Please try again.");
+
         } finally {
+
             setLoading(false);
         }
     };
+
+
+    // =========================================================
+    // STEP 2: VERIFY OTP, ACCOUNT IS CREATED AND SIGNED IN
+    // =========================================================
+
+    const verifyOtp = async () => {
+
+        setError("");
+        setSuccess("");
+        setLoading(true);
+
+        try {
+
+            const data = await authPost("/auth/register/verify-otp", {
+                mobile: mobile.trim(),
+                otp: otp.trim(),
+            });
+
+            login(
+                {
+                    id: data.userId ?? data.id,
+                    name: data.name,
+                    email: data.email,
+                    mobile: data.mobile,
+                    role: data.role,
+                },
+                data.token
+            );
+
+            navigate("/customer/dashboard");
+
+        } catch (err) {
+
+            setError(err.message || "Verification failed. Please try again.");
+
+        } finally {
+
+            setLoading(false);
+        }
+    };
+
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
+
+        if (step === 1) {
+            sendOtp();
+        } else {
+            verifyOtp();
+        }
+    };
+
 
     return (
         <div className="register-page">
@@ -87,7 +156,11 @@ function Register() {
                 <div className="register-card">
                     <div className="register-card-header">
                         <h2>Create Account</h2>
-                        <p>Register for your BookNow account</p>
+                        <p>
+                            {step === 1
+                                ? "Register for your BookNow account"
+                                : "Enter the OTP sent to your mobile"}
+                        </p>
                     </div>
 
                     <form onSubmit={handleSubmit}>
@@ -99,6 +172,7 @@ function Register() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Enter your full name"
+                                disabled={step === 2}
                                 required
                             />
                         </div>
@@ -110,37 +184,82 @@ function Register() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email"
+                                disabled={step === 2}
                                 required
                             />
                         </div>
 
                         <div className="register-form-group">
-                            <label>Password</label>
+                            <label>Mobile Number</label>
                             <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your password"
+                                type="tel"
+                                inputMode="numeric"
+                                autoComplete="tel"
+                                value={mobile}
+                                onChange={(e) => setMobile(e.target.value)}
+                                placeholder="10-digit mobile number"
+                                disabled={step === 2}
                                 required
                             />
                         </div>
 
-                        <div className="register-form-group">
-                            <label>Confirm Password</label>
-                            <input
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                placeholder="Confirm your password"
-                                required
-                            />
-                        </div>
+                        {step === 2 && (
+                            <div className="register-form-group">
+                                <label>OTP</label>
+                                <input
+                                    className="otp-input"
+                                    type="text"
+                                    inputMode="numeric"
+                                    autoComplete="one-time-code"
+                                    maxLength={6}
+                                    value={otp}
+                                    onChange={(e) =>
+                                        setOtp(e.target.value.replace(/\D/g, ""))
+                                    }
+                                    placeholder="6-digit OTP"
+                                    autoFocus
+                                    required
+                                />
+
+                                <div className="otp-actions">
+                                    <button
+                                        type="button"
+                                        className="otp-link"
+                                        onClick={sendOtp}
+                                        disabled={loading || resendIn > 0}
+                                    >
+                                        {resendIn > 0
+                                            ? `Resend OTP in ${resendIn}s`
+                                            : "Resend OTP"}
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className="otp-link"
+                                        onClick={() => {
+                                            setStep(1);
+                                            setOtp("");
+                                            setError("");
+                                            setSuccess("");
+                                        }}
+                                    >
+                                        Edit details
+                                    </button>
+                                </div>
+                            </div>
+                        )}
 
                         {error && <p className="register-error">{error}</p>}
-                        {success && <p className="register-success">{success}</p>}
+                        {success && !error && (
+                            <p className="register-success">{success}</p>
+                        )}
 
                         <button type="submit" className="register-submit" disabled={loading}>
-                            {loading ? "Creating account..." : "Create Account"}
+                            {loading
+                                ? "Please wait..."
+                                : step === 1
+                                    ? "Send OTP"
+                                    : "Verify & Create Account"}
                         </button>
 
                     </form>

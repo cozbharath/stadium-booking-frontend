@@ -251,3 +251,44 @@ export function remove(endpoint, options = {}) {
     clearApiCache(); // any write can make cached GETs stale
     return result;
 }
+
+// ============================================================
+// AUTH POST (login / register / OTP)
+// ============================================================
+// Plain fetch with no token and no redirect on 401. A wrong OTP comes back
+// as 401 and must show an error message, not log the user out.
+
+export async function authPost(endpoint, body) {
+
+    let response;
+
+    try {
+        response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+    } catch {
+        throw new Error(
+            "Network error. Please check your connection and try again."
+        );
+    }
+
+    let data = null;
+
+    try {
+        data = await response.json();
+    } catch {
+        data = null;
+    }
+
+    if (!response.ok) {
+        throw new Error(
+            data?.message ||
+            data?.error ||
+            `Request failed with status ${response.status}`
+        );
+    }
+
+    return data;
+}

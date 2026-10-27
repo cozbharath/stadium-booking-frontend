@@ -9,6 +9,7 @@ function CreateStaff() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
+        mobile: "",
         password: "",
         confirmPassword: "",
         role: "STAFF"
@@ -46,6 +47,7 @@ function CreateStaff() {
             const staffData = {
                 name: formData.name,
                 email: formData.email,
+                mobile: formData.mobile,
                 password: formData.password,
                 role: "STAFF"
             };
@@ -182,6 +184,28 @@ function CreateStaff() {
                                 type="email"
                                 placeholder="staff@example.com"
                                 value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+
+                        </div>
+
+
+                        {/* MOBILE */}
+
+                        <div className="admin-form-group">
+
+                            <label htmlFor="mobile">
+                                Mobile Number
+                            </label>
+
+                            <input
+                                id="mobile"
+                                name="mobile"
+                                type="tel"
+                                inputMode="numeric"
+                                placeholder="10-digit mobile number"
+                                value={formData.mobile}
                                 onChange={handleChange}
                                 required
                             />
