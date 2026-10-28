@@ -533,11 +533,6 @@ function SeatSelection() {
                     <h1>{ev.name}</h1>
                     <p>{ev.stadium} • {formatDate(ev.date)} • {formatTime(ev.start)}</p>
                 </div>
-                <div className="ss-steps">
-                    <span className={!activeStand ? "on" : ""}>1 Stand</span>
-                    <span className={activeStand ? "on" : ""}>2 Seats</span>
-                    <span>3 Pay</span>
-                </div>
             </div>
 
             <div className="sm-page">
