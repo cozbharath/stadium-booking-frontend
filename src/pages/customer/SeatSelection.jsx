@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { formatDate, formatTime, normalizeEvent } from "../../components/common/eventUtils";
+import StadiumMap from "../../components/customer/StadiumMap";
+import { buildRows, standAbbr } from "../../components/customer/stadiumLayout";
 import { get, post } from "../../services/api";
 
 const STAND_COLORS = [
@@ -297,119 +299,29 @@ function SeatSelection() {
     }, [stands, selectedStand]);
 
     // =========================================================
-    // CREATE SEAT ROWS (for the active stand only)
+    // ROWS OF EVERY STAND (the map draws all stands at once)
     // =========================================================
 
-    const rows = useMemo(() => {
-        const standSeats = activeStand?.seats || [];
+    const rowsByStand = useMemo(() => {
+        const map = {};
+        stands.forEach((stand) => {
+            map[stand.name] = buildRows(stand.seats);
+        });
+        return map;
+    }, [stands]);
 
-        if (!standSeats.length) {
-            return [];
-        }
-
-        /*
-         * If backend provides row information,
-         * use that information.
-         */
-        const hasRealRows = standSeats.some(
-            (seat) =>
-                seat.row !== null &&
-                seat.row !== undefined &&
-                String(seat.row).trim() !== ""
-        );
-
-        if (hasRealRows) {
-            const grouped = {};
-
-            standSeats.forEach((seat) => {
-                const rowName = String(
-                    seat.row ?? "A"
-                ).toUpperCase();
-
-                if (!grouped[rowName]) {
-                    grouped[rowName] = [];
-                }
-
-                grouped[rowName].push(seat);
-            });
-
-            return Object.entries(grouped)
-                .sort((a, b) => a[0].localeCompare(b[0]))
-                .map(
-                    ([rowName, rowSeats]) => [
-                        rowName,
-                        rowSeats.sort((a, b) => {
-                            if (
-                                a.column !== null &&
-                                b.column !== null
-                            ) {
-                                return (
-                                    Number(a.column) -
-                                    Number(b.column)
-                                );
-                            }
-
-                            return (
-                                a.sortNumber -
-                                b.sortNumber
-                            );
-                        })
-                    ]
-                );
-        }
-
-        /*
-         * Backend did not provide row information for this
-         * stand, so lay the seats out automatically.
-         *
-         * Exactly 20 seats per row (A1-A20, B1-B20 ...).
-         */
-        const SEATS_PER_ROW = 20;
-
-        const generatedRows = [];
-
-        for (
-            let i = 0;
-            i < standSeats.length;
-            i += SEATS_PER_ROW
-        ) {
-            generatedRows.push([
-                String.fromCharCode(
-                    65 + generatedRows.length
-                ),
-                standSeats.slice(i, i + SEATS_PER_ROW)
-            ]);
-        }
-
-        return generatedRows;
-    }, [activeStand]);
-
-    /*
-     * The widest row decides how many number columns (1, 2, 3 ...)
-     * are shown above the grid, so every row lines up under the
-     * same column headers instead of sliding sideways.
-     */
-    const maxColumns = useMemo(() => {
-        if (!rows.length) {
-            return 0;
-        }
-
-        return Math.max(
-            ...rows.map(([, rowSeats]) => rowSeats.length)
-        );
-    }, [rows]);
-
-
-    // "A5", "B12" … label for every seat of the active stand (used in the summary)
+    // "A5", "B12" … label for every seat (used in the selection summary)
     const seatLabelById = useMemo(() => {
         const map = {};
-        rows.forEach(([rowName, rowSeats]) => {
-            rowSeats.forEach((seat, col) => {
-                map[seat.id] = `${rowName}${col + 1}`;
+        Object.values(rowsByStand).forEach((standRows) => {
+            standRows.forEach(([rowName, rowSeats]) => {
+                rowSeats.forEach((seat, col) => {
+                    map[seat.id] = `${rowName}${col + 1}`;
+                });
             });
         });
         return map;
-    }, [rows]);
+    }, [rowsByStand]);
 
     // =========================================================
     // HANDLE SEAT CLICK
@@ -441,18 +353,10 @@ function SeatSelection() {
     // STAND SELECT / CHANGE
     // =========================================================
 
-    const handleSelectStand = (standName) => {
+    // the map tells us which stand is open (null = whole stadium).
+    // Seats picked in other stands stay picked, so one booking can mix stands.
+    const handleActiveChange = (standName) => {
         setSelectedStand(standName);
-        setHoldError("");
-        // scrolling effect: glide to the top of the map
-        requestAnimationFrame(() => {
-            mapRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-    };
-
-    const handleChangeStand = () => {
-        setSelectedStand(null);
-        setSelectedSeats([]);
         setHoldError("");
     };
 
@@ -618,12 +522,6 @@ function SeatSelection() {
 
     const ev = normalizeEvent(event);
     const money = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
-    const priceRange = (s) =>
-        s.minPrice === s.maxPrice ? money(s.minPrice) : `${money(s.minPrice)} – ${money(s.maxPrice)}`;
-
-    const availableInStand = activeStand
-        ? activeStand.seats.filter((s) => s.status === "available").length
-        : 0;
 
     return (
         <div className={`ss ${selectedSeats.length > 0 ? "has-dock" : ""}`}>
@@ -642,117 +540,27 @@ function SeatSelection() {
                 </div>
             </div>
 
-            <div className="ss-layout">
+            <div className="sm-page">
 
                 {/* ================= STADIUM ================= */}
-                <section className="ss-stage" ref={mapRef} style={{ scrollMarginTop: "calc(var(--yt-nav-h) + 12px)" }}>
-                    <div className="ss-stage-in">
-
-                        {!activeStand ? (
-                            <>
-                                <div className="ss-stage-head"><h2>Select a stand</h2></div>
-
-                                <div className="ss-pitch">
-                                    <div className="ss-pitch-bar" />
-                                    <span>PLAYING AREA</span>
-                                </div>
-
-                                {stands.length === 0 ? (
-                                    <div className="ss-empty" style={{ color: "#c9c9dc" }}>
-                                        <span>🏟️</span>No seats have been configured for this event yet.
-                                    </div>
-                                ) : (
-                                    <div className="ss-stands">
-                                        {stands.map((stand, i) => (
-                                            <button
-                                                key={stand.name}
-                                                type="button"
-                                                className="ss-stand"
-                                                style={{ "--c": stand.color, "--i": i }}
-                                                disabled={stand.availableCount === 0}
-                                                onClick={() => handleSelectStand(stand.name)}
-                                            >
-                                                <strong>{stand.name}</strong>
-                                                <span className="p">{priceRange(stand)} <small style={{ fontWeight: 500, color: "#b4b4cc" }}>/ seat</small></span>
-                                                <span className="m">
-                                                    {stand.availableCount === 0
-                                                        ? "Sold out"
-                                                        : `${stand.availableCount} of ${stand.totalCount} available`}
-                                                </span>
-                                                <div className="ss-bar">
-                                                    <i style={{ width: `${(stand.availableCount / Math.max(stand.totalCount, 1)) * 100}%` }} />
-                                                </div>
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                <div className="ss-stage-head">
-                                    <div>
-                                        <h2 style={{ color: "#ffd166" }}>{activeStand.name}</h2>
-                                        <span className="ss-price-badge" style={{ display: "inline-block", marginTop: 6 }}>
-                                            {priceRange(activeStand)} per seat
-                                        </span>
-                                    </div>
-                                    {stands.length > 1 && (
-                                        <button type="button" className="ss-change" onClick={handleChangeStand}>← Change stand</button>
-                                    )}
-                                </div>
-
-                                <div className="ss-pitch">
-                                    <div className="ss-pitch-bar" />
-                                    <span>PLAYING AREA / STAGE</span>
-                                </div>
-
-                                {rows.length === 0 ? (
-                                    <div className="ss-empty" style={{ color: "#c9c9dc" }}>No seats configured for this stand.</div>
-                                ) : (
-                                    <div className="ss-scroll" role="group" aria-label="Seat map">
-                                        <div className="ss-grid" style={{ "--cols": maxColumns }}>
-
-                                            {/* column numbers 1 – 20 */}
-                                            <div className="ss-colhead corner" />
-                                            {Array.from({ length: maxColumns }, (_, i) => (
-                                                <div key={i} className="ss-colhead">{i + 1}</div>
-                                            ))}
-
-                                            {/* rows A, B, C … each with seats 1 – 20 */}
-                                            {rows.map(([rowName, rowSeats], r) => (
-                                                <Row
-                                                    key={rowName}
-                                                    rowName={rowName}
-                                                    rowSeats={rowSeats}
-                                                    rowIndex={r}
-                                                    maxColumns={maxColumns}
-                                                    color={activeStand.color}
-                                                    selectedSeats={selectedSeats}
-                                                    holding={holding}
-                                                    onSeatClick={handleSeatClick}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-
-                                <div className="ss-hint">↔ Swipe the map to see all 20 seats ↕</div>
-
-                                <div className="ss-legend">
-                                    <span><i style={{ background: activeStand.color }} />Available</span>
-                                    <span><i style={{ background: "#f84464", boxShadow: "0 0 8px #f84464" }} />Selected</span>
-                                    <span><i style={{ background: "#3a3a52" }} />Sold</span>
-                                </div>
-
-                                <div className="ss-counts">
-                                    <span>Total <b>{activeStand.seats.length}</b></span>
-                                    <span>Available <b>{availableInStand}</b></span>
-                                    <span>Selected <b>{selectedSeats.length}</b></span>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </section>
+                <div ref={mapRef}>
+                    {stands.length === 0 ? (
+                        <div className="sm-empty">
+                            <span>🏟️</span>No seats have been configured for this event yet.
+                        </div>
+                    ) : (
+                        <StadiumMap
+                            stands={stands}
+                            rowsByStand={rowsByStand}
+                            activeName={selectedStand}
+                            onActiveChange={handleActiveChange}
+                            selectedIds={selectedSeats}
+                            onSeatClick={handleSeatClick}
+                            holding={holding}
+                            canChangeStand={stands.length > 1}
+                        />
+                    )}
+                </div>
 
             </div>
 
@@ -764,7 +572,7 @@ function SeatSelection() {
                         <div className="ss-dock-head">
                             <div>
                                 <h3>Your selection</h3>
-                                <small>{ev.name}{activeStand ? ` • ${activeStand.name}` : ""}</small>
+                                <small>{ev.name}</small>
                             </div>
                             <button type="button" className="ss-clear" onClick={handleClearSelection}>Clear all</button>
                         </div>
@@ -772,6 +580,7 @@ function SeatSelection() {
                         <div className="ss-dock-seats">
                             {selectedSeatDetails.map((seat) => (
                                 <span key={seat.id} className="ss-chip">
+                                    <small>{standAbbr(seat.standName)}</small>
                                     <b>{seatLabelById[seat.id] || `Seat ${seat.number}`}</b>
                                     <em>{money(seat.price)}</em>
                                     <button type="button" aria-label="Remove seat" onClick={() => handleSeatClick(seat)}>×</button>
@@ -881,48 +690,6 @@ function SeatSelection() {
             )}
 
         </div>
-    );
-}
-
-/* One row of seats (row letter + up to 20 seats, labelled 1 – 20) */
-function Row({ rowName, rowSeats, rowIndex, maxColumns, color, selectedSeats, holding, onSeatClick }) {
-    const cells = [];
-
-    for (let col = 0; col < maxColumns; col += 1) {
-        const seat = rowSeats[col];
-
-        if (!seat) {
-            cells.push(<span key={`gap-${col}`} />);
-            continue;
-        }
-
-        const selected = selectedSeats.includes(seat.id);
-        const booked = seat.status === "booked";
-        const label = `${rowName}${col + 1}`;
-        const state = booked ? "taken" : selected ? "sel" : "free";
-
-        cells.push(
-            <button
-                key={seat.id}
-                type="button"
-                className={`ss-seat ${state}`}
-                style={{ "--c": color, "--i": rowIndex * 4 + col }}
-                disabled={booked || holding}
-                aria-pressed={selected}
-                aria-label={`Seat ${label}${booked ? " sold" : ""}`}
-                data-tip={booked ? `${label} · Sold` : `${label} · ₹${Number(seat.price || 0).toLocaleString("en-IN")}`}
-                onClick={() => onSeatClick(seat)}
-            >
-                {col + 1}
-            </button>
-        );
-    }
-
-    return (
-        <>
-            <div className="ss-rowlabel">{rowName}</div>
-            {cells}
-        </>
     );
 }
 

@@ -1728,3 +1728,88 @@ body:has(.ss-modal-back){overflow:hidden}
     font-size: 18px;
     font-weight: 600;
 }
+
+
+
+/* =========================================================
+   STADIUM SEAT MAP (sm-*)  –  paste at the END of theme.css
+========================================================= */
+.sm{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+.sm-stage{background:#12142b;border:1px solid #2c3156;border-radius:20px;padding:14px;color:#eef0ff;min-width:0}
+.sm-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px;padding:2px 4px 10px}
+.sm-head h2{font-size:20px;letter-spacing:-.3px;color:#ffd166}
+.sm-hint{font-size:12.5px;color:#9aa0c8}
+.sm-box{position:relative;border-radius:14px;overflow:hidden;background:radial-gradient(ellipse at center,#141a38 0%,#0f1329 70%)}
+.sm-svg{display:block;width:100%;height:auto;aspect-ratio:1000/800;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.sm-svg.dragging{cursor:grabbing}
+
+.sm-decor{fill:#1a1f40;stroke:rgba(13,16,32,.9);stroke-width:1.2}
+.sm-sec{cursor:pointer;stroke:rgba(13,16,32,.9);stroke-width:1.2;transition:opacity .25s,filter .15s}
+.sm-sec:hover{filter:brightness(1.22)}
+.sm-sec.soldout{cursor:not-allowed;opacity:.35}
+.sm-sec.dim{opacity:.18}
+.sm-sec.active{fill-opacity:.14;stroke:rgba(255,255,255,.4);stroke-width:1.4;filter:none;cursor:default}
+.sm-sec-label{font-weight:700;fill:#fff;text-anchor:middle;dominant-baseline:middle;pointer-events:none;paint-order:stroke;stroke:rgba(13,16,32,.55);stroke-width:2.4px;transition:opacity .25s}
+.sm-sec-label.hide{opacity:0}
+.sm-ground-lab{font-weight:700;letter-spacing:.25em;text-anchor:middle;dominant-baseline:middle;pointer-events:none}
+
+.sm-seat{stroke:transparent;stroke-width:1;cursor:pointer;transition:fill .12s}
+.sm-seat:hover{filter:brightness(1.35)}
+.sm-seat.sold{fill:#333a60!important;cursor:not-allowed;opacity:.75}
+.sm-seat.sel{fill:#f84464!important;stroke:#fff;stroke-width:.7}
+.sm-rowlab{font-weight:700;fill:#9aa0c8;text-anchor:middle;dominant-baseline:middle;pointer-events:none}
+
+.sm-back{position:absolute;left:10px;top:10px;border:1px solid #2c3156;background:rgba(22,26,51,.92);color:#fff;border-radius:999px;padding:7px 14px;font-weight:700;font-size:13px;cursor:pointer}
+.sm-back:hover{border-color:#f84464}
+.sm-zoom{position:absolute;right:10px;bottom:10px;display:grid;gap:6px}
+.sm-zoom button{width:38px;height:38px;border-radius:10px;border:1px solid #2c3156;background:rgba(22,26,51,.92);color:#fff;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.sm-zoom button:hover{border-color:#f84464}
+.sm-tip{position:absolute;pointer-events:none;z-index:5;background:#05060f;border:1px solid #2c3156;border-radius:10px;padding:7px 10px;font-size:12.5px;line-height:1.35;white-space:nowrap;transform:translate(12px,12px);color:#eef0ff}
+.sm-tip b{display:block;font-size:14px}
+.sm-tip span{color:#9aa0c8}
+.sm-msg{min-height:18px;margin:8px 4px 0;font-size:13px;color:#ffb4c0}
+
+.sm-legend{display:flex;flex-wrap:wrap;gap:8px;padding:6px 0 0}
+.sm-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #2c3156;background:#1e2344;color:#eef0ff;border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer}
+.sm-chip i{width:11px;height:11px;border-radius:50%;background:var(--c);flex:none}
+.sm-chip .n{font-weight:700}
+.sm-chip .p{color:#9aa0c8;font-variant-numeric:tabular-nums}
+.sm-chip[aria-pressed="true"]{border-color:var(--c);box-shadow:0 0 0 1px var(--c) inset}
+.sm-chip:disabled{opacity:.4;cursor:not-allowed}
+.sm-key{display:flex;flex-wrap:wrap;gap:14px;padding:10px 4px 0;font-size:12.5px;color:#9aa0c8}
+.sm-key span{display:inline-flex;align-items:center;gap:6px}
+.sm-key i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.sm-key .free{background:#8a6bff}.sm-key .sel{background:#f84464;box-shadow:0 0 8px #f84464}.sm-key .sold{background:#333a60}
+
+.sm-side{min-width:0}
+.sm-card{background:#fff;border:1px solid var(--yt-line);border-radius:20px;padding:16px;box-shadow:var(--yt-shadow)}
+.sm-card h3{font-size:19px;letter-spacing:-.3px}
+.sm-card .sub{margin:2px 0 0;font-size:13px;color:var(--yt-muted)}
+.sm-kv{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:12px}
+.sm-kv span{display:block;font-size:12px;color:var(--yt-muted)}
+.sm-kv b{font-size:17px}
+.sm-view{position:relative;margin-top:14px;border-radius:12px;overflow:hidden;background:#0a0c1c}
+.sm-view svg,.sm-view img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover}
+.sm-view .cap{position:absolute;left:8px;bottom:8px;font-size:11px;letter-spacing:.04em;background:rgba(5,6,15,.75);color:#cfd2f0;padding:3px 8px;border-radius:6px}
+.sm-empty{background:#12142b;color:#c9c9dc;border-radius:20px;padding:40px 20px;text-align:center}
+.sm-empty span{display:block;font-size:34px;margin-bottom:8px}
+
+/* dock chip: small stand tag */
+.ss-chip small{font-size:10px;font-weight:800;color:var(--yt-muted);letter-spacing:.04em}
+
+/* ---------- tablets and phones ---------- */
+@media (max-width:900px){
+  .sm{grid-template-columns:minmax(0,1fr)}
+  .sm-stage{padding:10px;border-radius:16px}
+  .sm-head h2{font-size:18px}
+  .sm-back{padding:6px 12px;font-size:12px}
+  .sm-zoom button{width:42px;height:42px}   /* bigger tap targets */
+  .sm-legend{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+  .sm-chip{flex:none}
+}
+@media (max-width:420px){
+  .sm-hint{font-size:11.5px}
+  .sm-tip{display:none}                      /* no hover on touch screens */
+  .sm-card{padding:14px;border-radius:16px}
+}
+@media (prefers-reduced-motion:reduce){.sm-sec,.sm-seat,.sm-sec-label{transition:none}}
